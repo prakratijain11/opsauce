@@ -114,7 +114,7 @@ export function ApplyAssistant({
       fields: fields.map((f) => ({ label: f.label, value: f.value })),
     });
     setReviewing(false);
-    if (res && res.ok) {
+    if (res && !("error" in res)) {
       setReviewResult(res);
       setLog((l) => [...l, `AI Review complete: Score ${res.score}/100. ${res.overallFeedback}`]);
       toast.success(`AI Review Complete: Score ${res.score}/100`);
