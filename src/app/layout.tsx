@@ -67,10 +67,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${inter.variable} ${sora.variable} ${mono.variable} min-h-screen bg-background`}
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <SplashScreen />
           {children}
           <Toaster position="bottom-right" richColors />
-        </ThemeProvider>
+        </ThemeProvider>>
       </body>
     </html>
   );
