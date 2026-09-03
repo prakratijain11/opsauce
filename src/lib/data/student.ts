@@ -1,0 +1,87 @@
+import type { DocumentItem, StudentProfile } from "@/lib/types";
+
+/** Demo student — powers the signed-in app experience before real auth is wired. */
+export const DEMO_STUDENT: StudentProfile = {
+  name: "Devang Shah",
+  email: "devang@opportunityos.ai",
+  avatarUrl:
+    "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=256&h=256&fit=crop&crop=faces",
+  headline: "CS Engineering · 2nd Year",
+  educationLevel: "Undergraduate — 2nd Year",
+  fieldOfStudy: "Computer Science & Engineering",
+  institution: "Nagpur Institute of Technology",
+  graduationYear: 2028,
+  cgpa: 8.6,
+  city: "Nagpur",
+  country: "India",
+  interests: ["Artificial Intelligence", "Machine Learning", "Open Source", "Product Design"],
+  careerGoals: ["Higher Studies", "AI & ML", "Placements"],
+  preferredTypes: ["Competitive Exam", "Certification", "Hackathon", "Internship"],
+  completeness: 85,
+};
+
+export const DEMO_DOCUMENTS: DocumentItem[] = [
+  {
+    id: "doc_aadhaar",
+    name: "Aadhaar Card",
+    category: "ID Proof",
+    fileType: "pdf",
+    sizeKb: 640,
+    status: "VERIFIED",
+    uploadedAt: "2026-04-12T09:00:00.000Z",
+  },
+  {
+    id: "doc_10th",
+    name: "10th Marksheet",
+    category: "Marksheet",
+    fileType: "pdf",
+    sizeKb: 880,
+    status: "VERIFIED",
+    uploadedAt: "2026-04-12T09:05:00.000Z",
+  },
+  {
+    id: "doc_12th",
+    name: "12th Marksheet",
+    category: "Marksheet",
+    fileType: "pdf",
+    sizeKb: 910,
+    status: "VERIFIED",
+    uploadedAt: "2026-04-12T09:06:00.000Z",
+  },
+  {
+    id: "doc_college_id",
+    name: "College ID Card",
+    category: "ID Proof",
+    fileType: "jpg",
+    sizeKb: 320,
+    status: "VERIFIED",
+    uploadedAt: "2026-04-12T09:10:00.000Z",
+  },
+  {
+    id: "doc_signature",
+    name: "Signature",
+    category: "Application Asset",
+    fileType: "png",
+    sizeKb: 48,
+    status: "VERIFIED",
+    uploadedAt: "2026-04-12T09:12:00.000Z",
+  },
+  {
+    id: "doc_category",
+    name: "Category Certificate",
+    category: "Certificate",
+    fileType: "pdf",
+    sizeKb: 540,
+    status: "NEEDS_REVIEW",
+    uploadedAt: "2026-04-14T16:20:00.000Z",
+  },
+  {
+    id: "doc_income",
+    name: "Income Certificate",
+    category: "Certificate",
+    fileType: "pdf",
+    sizeKb: 505,
+    status: "PENDING",
+    uploadedAt: "2026-04-15T11:00:00.000Z",
+  },
+];
