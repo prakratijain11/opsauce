@@ -32,13 +32,13 @@ function ExploreSkeleton() {
         {[1, 2, 3, 4, 5].map((i) => (
           <Skeleton key={i} className="h-8 w-24 rounded-full shrink-0" />
         ))}
-      </div}
+      </div>
       <Skeleton className="h-4 w-32" />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <Skeleton key={i} className="h-48 w-full rounded-2xl" />
         ))}
-      </div}
+      </div>
     </div>
   );
 }
