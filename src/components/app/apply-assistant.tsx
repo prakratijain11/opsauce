@@ -127,7 +127,6 @@ export function ApplyAssistant({
   return (
     <div className="grid gap-8 lg:grid-cols-[1.5fr_1fr]">
       <div className="space-y-6">
-        {/* stepper */}
         <div className="flex items-center gap-2">
           {STEPS.map((s, i) => (
             <React.Fragment key={s}>
@@ -159,7 +158,6 @@ export function ApplyAssistant({
             </React.Fragment>
           ))}
         </div>
-
         {done ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -226,7 +224,6 @@ export function ApplyAssistant({
                   </Button>
                 </motion.div>
               )}
-
               {step === 1 && (
                 <motion.div
                   key="step1"
@@ -279,7 +276,6 @@ export function ApplyAssistant({
                   </Button>
                 </motion.div>
               )}
-
               {step === 2 && (
                 <motion.div
                   key="step2"
@@ -390,11 +386,10 @@ export function ApplyAssistant({
                   </div>
                 </motion.div>
               )}
+            </AnimatePresence>
           </div>
         )}
       </div>
-
-      {/* activity log */}
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
           <h3 className="font-display text-sm font-semibold">AI Activity Log</h3>
