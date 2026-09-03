@@ -10,7 +10,12 @@ export default async function SignInPage({
 }: {
   searchParams: { next?: string };
 }) {
-  const user = await getCurrentUser();
+  let user = null;
+  try {
+    user = await getCurrentUser();
+  } catch (e) {
+    console.error("Error fetching current user in SignInPage:", e);
+  }
   if (user) redirect(user.onboarded ? "/dashboard" : "/onboarding");
 
   const next =
