@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "OpportunityOS AI - Never Miss the Opportunity Meant for You.",
-  "author": "Devang Shah & Hrishi Sanap",
+  "author": "Devang Shah and Prakrati Jain",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "next dev",

@@ -96,6 +96,6 @@ The system uses a **Transparent Fallback Architecture**:
 
 ## 👥 Developers
 - **Devang Shah**
-- **Hrishi Sanap**
+- **Prakrati Jain**
 
 © 2026 OpportunityOS AI. All rights reserved.

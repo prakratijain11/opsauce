@@ -29,19 +29,19 @@ export const DEVELOPERS = [
     description:
       "Passionate about Artificial Intelligence, technology, innovation, and building meaningful solutions that solve real-world problems.",
     focus: ["Artificial Intelligence", "Product", "Systems"],
-    socials: { github: "#", linkedin: "#", email: "mailto:drhrishi2610@gmail.com" },
+    socials: { github: "#", linkedin: "#", email: "#" },
   },
   {
-    name: "Hrishi Sanap",
+    name: "Prakrati Jain",
     role: "Co-Developer",
     description:
       "Passionate about technology, innovation, and creating impactful digital solutions for students and society.",
     focus: ["Engineering", "Design Systems", "Experience"],
-    socials: { github: "#", linkedin: "#", email: "mailto:drhrishi2610@gmail.com" },
+    socials: { github: "#", linkedin: "#", email: "#" },
   },
 ] as const;
 
-export const DEVELOPED_BY = "Devang Shah & Hrishi Sanap";
+export const DEVELOPED_BY = "Devang Shah and Prakrati Jain";
 export const COPYRIGHT = `© ${BRAND.year} ${BRAND.name}. All rights reserved.`;
 
 export const OPPORTUNITY_CATEGORIES = [
