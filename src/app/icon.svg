@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="opsauce-grad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7C3AED" />
+      <stop offset="0.5" stop-color="#6366F1" />
+      <stop offset="1" stop-color="#8B5CF6" />
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="13" fill="url(#opsauce-grad)" />
+  <rect width="48" height="48" rx="13" fill="white" fill-opacity="0.04" />
+  <path d="M17 33V19a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v14" stroke="white" stroke-width="2.6" stroke-linecap="round" />
+  <path d="M24 33V24" stroke="white" stroke-width="2.6" stroke-linecap="round" />
+  <circle cx="24" cy="21" r="1.9" fill="white" />
+  <path d="M13 33h22" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-opacity="0.55" />
+</svg>
