@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   description: BRAND.description,
   applicationName: BRAND.name,
   manifest: "/manifest.json",
-  authors: [{ name: "Devang Shah" }, { name: "Prakrati Jain" }],
+  authors: [{ name: "Prakrati Jain" }],
   keywords: [
     "student opportunities",
     "scholarships",

@@ -24,16 +24,8 @@ export const BRAND = {
 
 export const DEVELOPERS = [
   {
-    name: "Devang Shah",
-    role: "Co-Developer",
-    description:
-      "Passionate about Artificial Intelligence, technology, innovation, and building meaningful solutions that solve real-world problems.",
-    focus: ["Artificial Intelligence", "Product", "Systems"],
-    socials: { github: "#", linkedin: "#", email: "#" },
-  },
-  {
     name: "Prakrati Jain",
-    role: "Co-Developer",
+    role: "Developer",
     description:
       "Passionate about technology, innovation, and creating impactful digital solutions for students and society.",
     focus: ["Engineering", "Design Systems", "Experience"],
@@ -41,7 +33,7 @@ export const DEVELOPERS = [
   },
 ] as const;
 
-export const DEVELOPED_BY = "Devang Shah and Prakrati Jain";
+export const DEVELOPED_BY = "Prakrati Jain";
 export const COPYRIGHT = `© ${BRAND.year} ${BRAND.name}. All rights reserved.`;
 
 export const OPPORTUNITY_CATEGORIES = [

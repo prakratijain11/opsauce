@@ -78,11 +78,15 @@ export async function signInAction(
     where: { email },
     include: { profile: true },
   });
-  if (!user && (email === "devang@opsauce.ai" || email === "devang@opportunityos.ai")) {
-    const fallbackEmail =
-      email === "devang@opsauce.ai" ? "devang@opportunityos.ai" : "devang@opsauce.ai";
-    user = await prisma.user.findUnique({
-      where: { email: fallbackEmail },
+  if (!user && email === "prakrati@opsauce.ai") {
+    user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { email: "prakrati@opsauce.ai" },
+          { email: { endsWith: "@opsauce.ai" } },
+          { email: { endsWith: "@opportunityos.ai" } },
+        ],
+      },
       include: { profile: true },
     });
   }

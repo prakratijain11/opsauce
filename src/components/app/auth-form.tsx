@@ -32,7 +32,7 @@ export function AuthForm({
   const handleDemoLogin = () => {
     if (!formRef.current) return;
     const formData = new FormData(formRef.current);
-    formData.set("email", "devang@opsauce.ai");
+    formData.set("email", "prakrati@opsauce.ai");
     formData.set("password", "demo1234");
 
     // Since useFormState is tied to the form action,
@@ -46,7 +46,7 @@ export function AuthForm({
     // it's better to just fill the fields and call submit().
     const emailInput = formRef.current.querySelector('input[name="email"]') as HTMLInputElement;
     const passInput = formRef.current.querySelector('input[name="password"]') as HTMLInputElement;
-    if (emailInput) emailInput.value = "devang@opsauce.ai";
+    if (emailInput) emailInput.value = "prakrati@opsauce.ai";
     if (passInput) passInput.value = "demo1234";
     formRef.current.requestSubmit();
   };
@@ -74,7 +74,7 @@ export function AuthForm({
       <form ref={formRef} action={formAction} className="flex flex-col gap-4">
         {!isSignUp && next ? <input type="hidden" name="next" value={next} /> : null}
         {isSignUp ? (
-          <Field label="Full name" name="name" type="text" placeholder="Devang Shah" autoComplete="name" />
+          <Field label="Full name" name="name" type="text" placeholder="Prakrati Jain" autoComplete="name" />
         ) : null}
         <Field
           label="Email"
@@ -100,7 +100,7 @@ export function AuthForm({
           </p>
           <div className="flex flex-col gap-3">
             <div className="flex justify-center gap-4 text-xs font-medium">
-              <p><span className="text-muted-foreground">Email:</span> devang@opsauce.ai</p>
+              <p><span className="text-muted-foreground">Email:</span> prakrati@opsauce.ai</p>
               <p><span className="text-muted-foreground">Password:</span> demo1234</p>
             </div>
             <Button

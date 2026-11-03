@@ -10,10 +10,10 @@ export function AppPreview() {
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div>
             <p className="text-xs text-muted-foreground">Good evening,</p>
-            <p className="font-display text-base font-semibold">Devang 👋</p>
+            <p className="font-display text-base font-semibold">Prakrati 👋</p>
           </div>
           <div className="grid h-9 w-9 place-items-center rounded-full bg-brand-gradient text-xs font-bold text-white">
-            DS
+            PJ
           </div>
         </div>
 

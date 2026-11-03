@@ -95,7 +95,6 @@ The system uses a **Transparent Fallback Architecture**:
 ---
 
 ## 👥 Developers
-- **Devang Shah**
 - **Prakrati Jain**
 
 © 2026 OpSauce. All rights reserved.

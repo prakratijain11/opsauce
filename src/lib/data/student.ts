@@ -2,8 +2,8 @@ import type { DocumentItem, StudentProfile } from "@/lib/types";
 
 /** Demo student — powers the signed-in app experience before real auth is wired. */
 export const DEMO_STUDENT: StudentProfile = {
-  name: "Devang Shah",
-  email: "devang@opsauce.ai",
+  name: "Prakrati Jain",
+  email: "prakrati@opsauce.ai",
   avatarUrl:
     "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=256&h=256&fit=crop&crop=faces",
   headline: "CS Engineering · 2nd Year",

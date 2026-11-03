@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "OpSauce - Never Miss the Opportunity Meant for You.",
-  "author": "Devang Shah and Prakrati Jain",
+  "author": "Prakrati Jain",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "next dev",
