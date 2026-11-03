@@ -32,7 +32,7 @@ export function AuthForm({
   const handleDemoLogin = () => {
     if (!formRef.current) return;
     const formData = new FormData(formRef.current);
-    formData.set("email", "devang@opportunityos.ai");
+    formData.set("email", "devang@opsauce.ai");
     formData.set("password", "demo1234");
 
     // Since useFormState is tied to the form action,
@@ -46,7 +46,7 @@ export function AuthForm({
     // it's better to just fill the fields and call submit().
     const emailInput = formRef.current.querySelector('input[name="email"]') as HTMLInputElement;
     const passInput = formRef.current.querySelector('input[name="password"]') as HTMLInputElement;
-    if (emailInput) emailInput.value = "devang@opportunityos.ai";
+    if (emailInput) emailInput.value = "devang@opsauce.ai";
     if (passInput) passInput.value = "demo1234";
     formRef.current.requestSubmit();
   };
@@ -100,7 +100,7 @@ export function AuthForm({
           </p>
           <div className="flex flex-col gap-3">
             <div className="flex justify-center gap-4 text-xs font-medium">
-              <p><span className="text-muted-foreground">Email:</span> devang@opportunityos.ai</p>
+              <p><span className="text-muted-foreground">Email:</span> devang@opsauce.ai</p>
               <p><span className="text-muted-foreground">Password:</span> demo1234</p>
             </div>
             <Button
@@ -116,7 +116,7 @@ export function AuthForm({
       )}
 
       <p className="text-center text-sm text-muted-foreground">
-        {isSignUp ? "Already have an account? " : "New to OpportunityOS AI? "}
+        {isSignUp ? "Already have an account? " : "New to OpSauce? "}
         <Link
           href={isSignUp ? "/sign-in" : "/sign-up"}
           className="font-medium text-brand-600 hover:underline"

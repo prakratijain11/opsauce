@@ -73,10 +73,19 @@ export async function signInAction(
   }
 
   const next = safeNext(formData.get("next"));
-  const user = await prisma.user.findUnique({
-    where: { email: parsed.data.email.toLowerCase() },
+  const email = parsed.data.email.toLowerCase();
+  let user = await prisma.user.findUnique({
+    where: { email },
     include: { profile: true },
   });
+  if (!user && (email === "devang@opsauce.ai" || email === "devang@opportunityos.ai")) {
+    const fallbackEmail =
+      email === "devang@opsauce.ai" ? "devang@opportunityos.ai" : "devang@opsauce.ai";
+    user = await prisma.user.findUnique({
+      where: { email: fallbackEmail },
+      include: { profile: true },
+    });
+  }
   if (!user || !(await verifyPassword(parsed.data.password, user.passwordHash))) {
     return { error: "Email or password is incorrect." };
   }

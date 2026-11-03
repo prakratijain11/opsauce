@@ -137,7 +137,7 @@ export function OnboardingFlow({ name }: { name: string }) {
       <div className="mb-8 flex items-center gap-2.5">
         <LogoMark className="h-9 w-9" />
         <span className="font-display text-lg font-bold tracking-tight">
-          Opportunity<span className="text-brand-500">OS</span>
+          Op<span className="text-brand-500">Sauce</span>
         </span>
       </div>
 

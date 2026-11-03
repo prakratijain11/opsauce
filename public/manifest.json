@@ -1,6 +1,6 @@
 {
-  "name": "OpportunityOS AI",
-  "short_name": "OppOS AI",
+  "name": "OpSauce",
+  "short_name": "OpSauce",
   "description": "AI-powered student opportunity discovery platform",
   "start_url": "/",
   "display": "standalone",

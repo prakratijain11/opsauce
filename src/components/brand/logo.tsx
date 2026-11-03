@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-/** The OpportunityOS AI glyph — an open doorway / aperture inside a rounded tile. */
+/** The OpSauce glyph — an open doorway / aperture inside a rounded tile. */
 export function LogoMark({
   className,
   ...props
@@ -15,13 +15,13 @@ export function LogoMark({
       {...props}
     >
       <defs>
-        <linearGradient id="oos-grad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+        <linearGradient id="opsauce-grad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
           <stop stopColor="#7C3AED" />
           <stop offset="0.5" stopColor="#6366F1" />
           <stop offset="1" stopColor="#8B5CF6" />
         </linearGradient>
       </defs>
-      <rect width="48" height="48" rx="13" fill="url(#oos-grad)" />
+      <rect width="48" height="48" rx="13" fill="url(#opsauce-grad)" />
       <rect width="48" height="48" rx="13" fill="white" fillOpacity="0.04" />
       <path
         d="M17 33V19a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v14"
@@ -61,7 +61,7 @@ export function Logo({
             invert ? "text-white" : "text-foreground",
           )}
         >
-          Opportunity<span className="text-brand-500">OS</span>
+          Op<span className="text-brand-500">Sauce</span>
         </span>
         {showAiChip ? (
           <span className="rounded-md bg-brand-gradient px-1.5 py-0.5 text-[0.62rem] font-bold uppercase tracking-wider text-white">

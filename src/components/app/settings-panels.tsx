@@ -101,7 +101,7 @@ export function SettingsPanels({
         {active === "notifications" && (
           <PrefPanel
             title="Notifications"
-            description="Choose when OpportunityOS AI should reach out."
+            description="Choose when OpSauce should reach out."
             kind="notificationPrefs"
             fields={NOTIFICATION_FIELDS}
             values={notificationPrefs}
@@ -153,7 +153,7 @@ function Row({ label, value }: { label: string; value: React.ReactNode }) {
 
 function AccountPanel({ account }: { account: Props["account"] }) {
   return (
-    <Panel title="Account" description="Your identity across OpportunityOS AI.">
+    <Panel title="Account" description="Your identity across OpSauce.">
       <div className="divide-y divide-border">
         <Row label="Name" value={account.name} />
         <Row label="Email" value={account.email} />

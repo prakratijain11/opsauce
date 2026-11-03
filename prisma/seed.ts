@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 const DEMO_PASSWORD = "demo1234";
 
 async function main() {
-  console.log("→ Seeding OpportunityOS AI …");
+  console.log("→ Seeding OpSauce …");
 
   await prisma.deadline.deleteMany();
   await prisma.savedOpportunity.deleteMany();

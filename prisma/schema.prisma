@@ -1,4 +1,4 @@
-// OpportunityOS AI — data model
+// OpSauce — data model
 // Dev: SQLite. Production: switch provider to "postgresql" and update DATABASE_URL.
 
 generator client {

@@ -1,17 +1,17 @@
 /**
- * OpportunityOS AI — single source of truth for brand + attribution.
+ * OpSauce — single source of truth for brand + attribution.
  * Referenced by the About page, Splash screen, Footer and Settings → About.
  */
 
 export const BRAND = {
-  name: "OpportunityOS AI",
-  shortName: "OpportunityOS",
+  name: "OpSauce",
+  shortName: "OpSauce",
   tagline: "Never Miss the Opportunity Meant for You.",
   subtitle: "Empowering students to discover opportunities before they miss them.",
   version: "1.0",
   year: 2026,
   description:
-    "OpportunityOS AI is a premium AI-powered student opportunity discovery and application assistance platform designed to help students discover, track, prepare for, and apply to relevant opportunities.",
+    "OpSauce is a premium AI-powered student opportunity discovery and application assistance platform designed to help students discover, track, prepare for, and apply to relevant opportunities.",
   mission:
     "No student should miss an opportunity simply because they did not know it existed or missed its deadline.",
   missionLong:

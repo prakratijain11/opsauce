@@ -1,8 +1,8 @@
-# 🚀 OpportunityOS AI
+# 🚀 OpSauce
 
 **Never Miss the Opportunity Meant for You.**
 
-OpportunityOS AI is a premium, AI-powered student opportunity discovery and application-assistance platform. It helps students find scholarships, internships, fellowships, and competitive exams, and provides an intelligent assistant to help them prepare high-quality applications.
+OpSauce is a premium, AI-powered student opportunity discovery and application-assistance platform. It helps students find scholarships, internships, fellowships, and competitive exams, and provides an intelligent assistant to help them prepare high-quality applications.
 
 ---
 
@@ -46,7 +46,7 @@ OpportunityOS AI is a premium, AI-powered student opportunity discovery and appl
 \`\`\`bash
 # Clone the repository
 git clone <repo-url>
-cd "OPPORTUNITYOS AI"
+cd "OpSauce"
 
 # Install dependencies
 npm install
@@ -98,4 +98,4 @@ The system uses a **Transparent Fallback Architecture**:
 - **Devang Shah**
 - **Prakrati Jain**
 
-© 2026 OpportunityOS AI. All rights reserved.
+© 2026 OpSauce. All rights reserved.

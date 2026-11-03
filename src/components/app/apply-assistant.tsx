@@ -305,7 +305,7 @@ export function ApplyAssistant({
                   </div>
                   <p className="text-sm text-muted-foreground">
                     Check every value. When you confirm, this application is marked as
-                    submitted in OpportunityOS AI and you&apos;ll be directed to the official
+                    submitted in OpSauce and you&apos;ll be directed to the official
                     site to finish.
                   </p>
                   {reviewResult && (
