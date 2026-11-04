@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { readSession } from "@/lib/auth";
 import { safeJsonArray } from "@/lib/utils";
+import { DEMO_STUDENT } from "@/lib/data/student";
 import type { StudentProfile } from "@/lib/types";
 
 export type CurrentUser = {
@@ -31,9 +32,34 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
   const session = await readSession();
   if (!session) return null;
 
-  const user = await prisma.user
-    .findUnique({ where: { id: session.userId }, include: { profile: true } })
-    .catch(() => null);
+  let user = null;
+  try {
+    user = await prisma.user.findUnique({
+      where: { id: session.userId },
+      include: { profile: true },
+    });
+  } catch (err) {
+    console.warn("getCurrentUser DB warning:", err);
+  }
+
+  if (
+    !user &&
+    (session.userId === "demo-user-id" ||
+      session.email === "prakrati@opsauce.ai" ||
+      session.email?.endsWith("@opsauce.ai"))
+  ) {
+    return {
+      id: "demo-user-id",
+      name: DEMO_STUDENT.name,
+      email: DEMO_STUDENT.email,
+      avatarUrl: DEMO_STUDENT.avatarUrl ?? null,
+      onboarded: true,
+      profile: DEMO_STUDENT,
+      notificationPrefs: { deadlineReminders: true, opportunityAlerts: true, weeklyDigest: false },
+      preferences: { competitiveExams: true, certifications: true, scholarships: true, internships: true },
+    };
+  }
+
   if (!user) return null;
 
   const p = user.profile;

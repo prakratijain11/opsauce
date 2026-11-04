@@ -31,19 +31,6 @@ export function AuthForm({
 
   const handleDemoLogin = () => {
     if (!formRef.current) return;
-    const formData = new FormData(formRef.current);
-    formData.set("email", "prakrati@opsauce.ai");
-    formData.set("password", "demo1234");
-
-    // Since useFormState is tied to the form action,
-    // we trigger the action manually using the formAction.
-    const event = new Request("http://localhost", {
-      method: "POST",
-      body: formData,
-    });
-
-    // To trigger the server action from client side without a native submit,
-    // it's better to just fill the fields and call submit().
     const emailInput = formRef.current.querySelector('input[name="email"]') as HTMLInputElement;
     const passInput = formRef.current.querySelector('input[name="password"]') as HTMLInputElement;
     if (emailInput) emailInput.value = "prakrati@opsauce.ai";

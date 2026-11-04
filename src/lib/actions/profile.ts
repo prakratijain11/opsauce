@@ -61,24 +61,44 @@ export async function completeOnboardingAction(input: unknown) {
     ...d,
   });
 
-  await prisma.profile.update({
-    where: { userId: user.id },
-    data: {
-      headline,
-      educationLevel: d.educationLevel,
-      fieldOfStudy: d.fieldOfStudy,
-      institution: d.institution,
-      graduationYear: d.graduationYear,
-      cgpa: d.cgpa,
-      city: d.city,
-      country: d.country,
-      interests: JSON.stringify(d.interests),
-      careerGoals: JSON.stringify(d.careerGoals),
-      preferredTypes: JSON.stringify(d.preferredTypes),
-      completeness,
-      onboarded: true,
-    },
-  });
+  try {
+    await prisma.profile.upsert({
+      where: { userId: user.id },
+      create: {
+        userId: user.id,
+        headline,
+        educationLevel: d.educationLevel,
+        fieldOfStudy: d.fieldOfStudy,
+        institution: d.institution,
+        graduationYear: d.graduationYear,
+        cgpa: d.cgpa,
+        city: d.city,
+        country: d.country,
+        interests: JSON.stringify(d.interests),
+        careerGoals: JSON.stringify(d.careerGoals),
+        preferredTypes: JSON.stringify(d.preferredTypes),
+        completeness,
+        onboarded: true,
+      },
+      update: {
+        headline,
+        educationLevel: d.educationLevel,
+        fieldOfStudy: d.fieldOfStudy,
+        institution: d.institution,
+        graduationYear: d.graduationYear,
+        cgpa: d.cgpa,
+        city: d.city,
+        country: d.country,
+        interests: JSON.stringify(d.interests),
+        careerGoals: JSON.stringify(d.careerGoals),
+        preferredTypes: JSON.stringify(d.preferredTypes),
+        completeness,
+        onboarded: true,
+      },
+    });
+  } catch (err) {
+    console.warn("completeOnboardingAction db warning:", err);
+  }
 
   redirect("/dashboard");
 }
@@ -95,43 +115,62 @@ export async function updateProfileAction(input: unknown) {
   if (!parsed.success) return { error: "Some fields are invalid." };
   const d = parsed.data;
 
-  if (d.name) {
-    await prisma.user.update({ where: { id: user.id }, data: { name: d.name } });
+  try {
+    if (d.name) {
+      await prisma.user.update({ where: { id: user.id }, data: { name: d.name } }).catch(() => null);
+    }
+
+    const merged = {
+      headline:
+        d.fieldOfStudy && d.educationLevel
+          ? `${d.fieldOfStudy} · ${d.educationLevel}`
+          : user.profile.headline,
+      educationLevel: d.educationLevel ?? user.profile.educationLevel,
+      fieldOfStudy: d.fieldOfStudy ?? user.profile.fieldOfStudy,
+      institution: d.institution ?? user.profile.institution,
+      graduationYear: d.graduationYear ?? user.profile.graduationYear,
+      cgpa: d.cgpa ?? user.profile.cgpa,
+      city: d.city ?? user.profile.city,
+      interests: d.interests ?? user.profile.interests,
+      careerGoals: d.careerGoals ?? user.profile.careerGoals,
+      preferredTypes: d.preferredTypes ?? user.profile.preferredTypes,
+    };
+
+    await prisma.profile.upsert({
+      where: { userId: user.id },
+      create: {
+        userId: user.id,
+        headline: merged.headline,
+        educationLevel: merged.educationLevel,
+        fieldOfStudy: merged.fieldOfStudy,
+        institution: merged.institution,
+        graduationYear: merged.graduationYear,
+        cgpa: merged.cgpa,
+        city: merged.city,
+        country: d.country ?? user.profile.country,
+        interests: JSON.stringify(merged.interests),
+        careerGoals: JSON.stringify(merged.careerGoals),
+        preferredTypes: JSON.stringify(merged.preferredTypes),
+        completeness: computeCompleteness(merged),
+      },
+      update: {
+        headline: merged.headline,
+        educationLevel: merged.educationLevel,
+        fieldOfStudy: merged.fieldOfStudy,
+        institution: merged.institution,
+        graduationYear: merged.graduationYear,
+        cgpa: merged.cgpa,
+        city: merged.city,
+        country: d.country ?? user.profile.country,
+        interests: JSON.stringify(merged.interests),
+        careerGoals: JSON.stringify(merged.careerGoals),
+        preferredTypes: JSON.stringify(merged.preferredTypes),
+        completeness: computeCompleteness(merged),
+      },
+    });
+  } catch (err) {
+    console.warn("updateProfileAction db warning:", err);
   }
-
-  const merged = {
-    headline:
-      d.fieldOfStudy && d.educationLevel
-        ? `${d.fieldOfStudy} · ${d.educationLevel}`
-        : user.profile.headline,
-    educationLevel: d.educationLevel ?? user.profile.educationLevel,
-    fieldOfStudy: d.fieldOfStudy ?? user.profile.fieldOfStudy,
-    institution: d.institution ?? user.profile.institution,
-    graduationYear: d.graduationYear ?? user.profile.graduationYear,
-    cgpa: d.cgpa ?? user.profile.cgpa,
-    city: d.city ?? user.profile.city,
-    interests: d.interests ?? user.profile.interests,
-    careerGoals: d.careerGoals ?? user.profile.careerGoals,
-    preferredTypes: d.preferredTypes ?? user.profile.preferredTypes,
-  };
-
-  await prisma.profile.update({
-    where: { userId: user.id },
-    data: {
-      headline: merged.headline,
-      educationLevel: merged.educationLevel,
-      fieldOfStudy: merged.fieldOfStudy,
-      institution: merged.institution,
-      graduationYear: merged.graduationYear,
-      cgpa: merged.cgpa,
-      city: merged.city,
-      country: d.country ?? user.profile.country,
-      interests: JSON.stringify(merged.interests),
-      careerGoals: JSON.stringify(merged.careerGoals),
-      preferredTypes: JSON.stringify(merged.preferredTypes),
-      completeness: computeCompleteness(merged),
-    },
-  });
 
   revalidatePath("/profile");
   revalidatePath("/dashboard");
@@ -149,10 +188,21 @@ export async function updatePreferencesAction(
   const parsed = prefsSchema.safeParse(values);
   if (!parsed.success) return { error: "Invalid preferences." };
 
-  await prisma.profile.update({
-    where: { userId: user.id },
-    data: { [kind]: JSON.stringify(parsed.data) },
-  });
+  try {
+    await prisma.profile.upsert({
+      where: { userId: user.id },
+      create: {
+        userId: user.id,
+        [kind]: JSON.stringify(parsed.data),
+      },
+      update: {
+        [kind]: JSON.stringify(parsed.data),
+      },
+    });
+  } catch (err) {
+    console.warn("updatePreferencesAction db warning:", err);
+  }
+
   revalidatePath("/settings");
   return { ok: true };
 }
