@@ -7,11 +7,11 @@ import {
 } from "lucide-react";
 import { AppTopbar } from "@/components/app/app-topbar";
 import { AiSourceBadge } from "@/components/app/ai-source-badge";
+import { PhotoUploader } from "@/components/app/photo-uploader";
 import { ProfileEditor } from "@/components/app/profile-editor";
 import { readinessFor } from "@/lib/ai-model";
 import { requireUser } from "@/lib/session";
 import { getUnreadCount, getUserDocuments } from "@/lib/user-data";
-import { initials } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Profile" };
 export const dynamic = "force-dynamic";
@@ -29,17 +29,7 @@ export default async function ProfilePage() {
       <AppTopbar title="Profile" user={user} unread={unread} />
       <div className="flex-1 space-y-8 px-5 py-8 sm:px-8">
         <section className="flex flex-col gap-5 rounded-2xl border border-border bg-card p-6 shadow-card sm:flex-row sm:items-center">
-          <div className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-2xl bg-brand-gradient text-2xl font-bold text-white">
-            {user.avatarUrl ? (
-              <img
-                src={user.avatarUrl}
-                alt={user.name}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              initials(user.name)
-            )}
-          </div>
+          <PhotoUploader name={user.name} avatarUrl={user.avatarUrl} />
           <div className="flex-1">
             <h2 className="font-display text-xl font-bold tracking-tight">{user.name}</h2>
             <p className="text-sm text-muted-foreground">

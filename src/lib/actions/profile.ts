@@ -177,6 +177,36 @@ export async function updateProfileAction(input: unknown) {
   return { ok: true };
 }
 
+const AVATAR_DATA_URL = /^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+/=]+)$/;
+const MAX_AVATAR_BYTES = 750 * 1024;
+
+/** Store a client-resized profile photo as a data URL on the user record. */
+export async function updateAvatarAction(dataUrl: string | null) {
+  const user = await getCurrentUser();
+  if (!user) redirect("/sign-in");
+
+  if (dataUrl !== null) {
+    const match = AVATAR_DATA_URL.exec(dataUrl);
+    if (!match || match[2].length > MAX_AVATAR_BYTES) {
+      return { error: "That image format isn't supported or is too large." };
+    }
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { avatarUrl: dataUrl },
+    });
+  } catch (err) {
+    console.warn("updateAvatarAction db warning:", err);
+    return { error: "Could not save your photo. Please try again." };
+  }
+
+  revalidatePath("/profile");
+  revalidatePath("/dashboard");
+  return { ok: true };
+}
+
 const prefsSchema = z.record(z.boolean());
 
 export async function updatePreferencesAction(

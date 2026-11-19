@@ -12,21 +12,25 @@ function parts(ms: number) {
 }
 
 export function Countdown({ target, label }: { target: string; label: string }) {
-  const [now, setNow] = React.useState(() => Date.now());
+  // `now` starts null so server and client render identical markup; the real
+  // clock is only read after mount, avoiding a hydration mismatch.
+  const [now, setNow] = React.useState<number | null>(null);
 
   React.useEffect(() => {
+    setNow(Date.now());
     const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, []);
 
-  const { days, hours, mins, secs } = parts(new Date(target).getTime() - now);
-  const closed = new Date(target).getTime() - now <= 0;
+  const remaining = now === null ? null : new Date(target).getTime() - now;
+  const closed = remaining !== null && remaining <= 0;
+  const time = remaining === null ? null : parts(remaining);
 
   const cells = [
-    { v: days, l: "Days" },
-    { v: hours, l: "Hours" },
-    { v: mins, l: "Mins" },
-    { v: secs, l: "Secs" },
+    { v: time?.days, l: "Days" },
+    { v: time?.hours, l: "Hours" },
+    { v: time?.mins, l: "Mins" },
+    { v: time?.secs, l: "Secs" },
   ];
 
   return (
@@ -38,7 +42,7 @@ export function Countdown({ target, label }: { target: string; label: string }) 
         {cells.map((c) => (
           <div key={c.l} className="rounded-xl bg-card py-3 text-center shadow-soft">
             <p className="font-display text-2xl font-bold tabular-nums">
-              {String(c.v).padStart(2, "0")}
+              {c.v === undefined ? "--" : String(c.v).padStart(2, "0")}
             </p>
             <p className="text-[0.65rem] uppercase tracking-wide text-muted-foreground">
               {c.l}

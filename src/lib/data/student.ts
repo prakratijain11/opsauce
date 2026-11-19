@@ -4,8 +4,7 @@ import type { DocumentItem, StudentProfile } from "@/lib/types";
 export const DEMO_STUDENT: StudentProfile = {
   name: "Prakrati Jain",
   email: "prakrati@opsauce.ai",
-  avatarUrl:
-    "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=256&h=256&fit=crop&crop=faces",
+  // No stock photo by default — users add their own from the Profile page.
   headline: "CS Engineering · 2nd Year",
   educationLevel: "Undergraduate — 2nd Year",
   fieldOfStudy: "Computer Science & Engineering",
