@@ -26,6 +26,8 @@ yarn-error.log*
 # local env files
 .env
 .env*.local
+.env*
+!.env.example
 
 # database
 /prisma/dev.db
@@ -38,6 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
-.env*.local
-.env*
+# local tooling / secrets
+.claude/
+.secret_temp

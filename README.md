@@ -45,8 +45,8 @@ OpSauce is a premium, AI-powered student opportunity discovery and application-a
 ### 2. Installation
 \`\`\`bash
 # Clone the repository
-git clone <repo-url>
-cd "OpSauce"
+git clone https://github.com/prakratijain11/opsauce.git
+cd opsauce
 
 # Install dependencies
 npm install
@@ -61,7 +61,8 @@ ollama pull llama3.1
 ### 4. Environment Configuration
 Create a \`.env\` file in the root directory:
 \`\`\`env
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/opsauce?schema=public"
+AUTH_SECRET="replace-with-openssl-rand-base64-32"
 AI_ENABLED=true
 OLLAMA_BASE_URL="http://localhost:11434"
 AI_MODEL="llama3.1"
@@ -70,9 +71,9 @@ AI_DISPLAY_NAME="NovaMind 5.8"
 
 ### 5. Launch
 \`\`\`bash
-# Initialize database
-npx prisma migrate dev
-npm run seed
+# Initialize database schema and seed demo data
+npx prisma db push
+npm run db:seed
 
 # Start development server
 npm run dev
