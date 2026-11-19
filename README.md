@@ -34,7 +34,7 @@ OpSauce is a premium, AI-powered student opportunity discovery and application-a
 - **Animations**: Framer Motion for premium micro-interactions.
 - **Database**: Prisma ORM with SQLite (Development) / PostgreSQL (Production).
 - **Authentication**: Secure JWT-based sessions via `jose` and `bcryptjs`.
-- **AI Engine**: Ollama (OpenAI-compatible API) running local LLMs (e.g., `llama3.1`).
+- **AI Engine**: Google Gemini (hosted) with local Ollama fallback; every AI call also has a rule-based heuristic safety net.
 
 ---
 
@@ -55,10 +55,11 @@ npm install
 \`\`\`
 
 ### 3. AI Setup (Optional)
-To enable NovaMind 5.8, ensure Ollama is running and pull the model:
+For hosted AI, add `GEMINI_API_KEY` to `.env`. For local AI, ensure Ollama is running and pull a model:
 \`\`\`bash
 ollama pull llama3.1
 \`\`\`
+Set `AI_PROVIDER=auto` to use Gemini first and fall back to Ollama.
 
 ### 4. Environment Configuration
 Create a \`.env\` file in the root directory:
@@ -66,9 +67,12 @@ Create a \`.env\` file in the root directory:
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/opsauce?schema=public"
 AUTH_SECRET="replace-with-openssl-rand-base64-32"
 AI_ENABLED=true
+AI_PROVIDER="auto"
+GEMINI_API_KEY="your-gemini-api-key"
+GEMINI_MODEL="gemini-3.5-flash-lite"
 OLLAMA_BASE_URL="http://localhost:11434"
 AI_MODEL="llama3.1"
-AI_DISPLAY_NAME="NovaMind 5.8"
+AI_DISPLAY_NAME="NovaMind5.8"
 \`\`\`
 
 ### 5. Launch

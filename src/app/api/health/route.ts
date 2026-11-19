@@ -28,7 +28,12 @@ export async function GET() {
       model: ai.model,
       reachable: ai.reachable,
       modelAvailable: ai.modelAvailable,
-      mode: ai.reachable && ai.modelAvailable ? "on-device" : "heuristic-fallback",
+      mode:
+        ai.reachable && ai.modelAvailable
+          ? ai.provider === "gemini"
+            ? "hosted"
+            : "on-device"
+          : "heuristic-fallback",
     },
     timestamp: new Date().toISOString(),
   });

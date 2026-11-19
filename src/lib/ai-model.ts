@@ -11,71 +11,123 @@ import {
 import { fingerprint, withCache } from "@/lib/ai-cache";
 
 /**
- * On-device AI integration (Ollama).
- *
- * Every function here calls a locally-running model through Ollama's
- * OpenAI-compatible API and *always* falls back to the rule-based heuristic in
- * `src/lib/ai.ts` when the model is unreachable, slow, or returns something
- * unparseable. Callers get the same shape either way, plus `source: "ai" | "heuristic"`.
+ * Hybrid AI integration: a hosted Google Gemini model first, with a locally
+ * running Ollama model as a fallback. Every function here *always* falls back
+ * to the rule-based heuristic in `src/lib/ai.ts` when no provider is reachable,
+ * slow, or returns something unparseable. Callers get the same shape either
+ * way, plus `source: "ai" | "heuristic"`.
  *
  * Configure in .env:
  *   AI_ENABLED=true
+ *   AI_PROVIDER=auto                 # auto | gemini | ollama
+ *   GEMINI_API_KEY=...               # enables the hosted provider
+ *   GEMINI_MODEL=gemini-3.5-flash-lite
  *   OLLAMA_BASE_URL=http://localhost:11434
- *   AI_MODEL=llama3.1              # any model you've `ollama pull`ed
+ *   AI_MODEL=llama3.1               # any model you've `ollama pull`ed
  */
 
-const BASE_URL = (process.env.OLLAMA_BASE_URL ?? "http://localhost:11434").replace(/\/$/, "");
-const MODEL = process.env.AI_MODEL ?? "llama3.1";
+const AI_PROVIDER = (process.env.AI_PROVIDER ?? "auto").toLowerCase();
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? "";
+const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-3.5-flash-lite";
+const GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai";
+const OLLAMA_BASE_URL = (process.env.OLLAMA_BASE_URL ?? "http://localhost:11434").replace(/\/$/, "");
+const OLLAMA_MODEL = process.env.AI_MODEL ?? "llama3.1";
 /** Friendly name shown to users in place of the raw model id. */
 export const AI_DISPLAY_NAME = process.env.AI_DISPLAY_NAME ?? "NovaMind5.8";
 const ENABLED = (process.env.AI_ENABLED ?? "true").toLowerCase() !== "false";
 
+type ProviderId = "gemini" | "ollama";
+type Provider = {
+  id: ProviderId;
+  url: string;
+  apiKey: string;
+  model: string;
+  jsonMode: boolean;
+};
+
+const CACHE_MODEL = activeProviders().map((p) => `${p.id}:${p.model}`).join("|") || "none";
+
 type ChatMessage = { role: "system" | "user" | "assistant"; content: string };
+
+function activeProviders(): Provider[] {
+  const list: Provider[] = [];
+  if (GEMINI_API_KEY && AI_PROVIDER !== "ollama") {
+    list.push({
+      id: "gemini",
+      url: `${GEMINI_BASE_URL}/chat/completions`,
+      apiKey: GEMINI_API_KEY,
+      model: GEMINI_MODEL,
+      jsonMode: false,
+    });
+  }
+  if (AI_PROVIDER !== "gemini") {
+    list.push({
+      id: "ollama",
+      url: `${OLLAMA_BASE_URL}/v1/chat/completions`,
+      apiKey: process.env.AI_API_KEY ?? "",
+      model: OLLAMA_MODEL,
+      jsonMode: true,
+    });
+  }
+  return list;
+}
 
 async function chatJSON<T>(
   messages: ChatMessage[],
   schema: z.ZodType<T>,
   { timeoutMs = 22_000, temperature = 0.2 }: { timeoutMs?: number; temperature?: number } = {},
-): Promise<T | null> {
+): Promise<{ value: T; provider: ProviderId } | null> {
   if (!ENABLED) return null;
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const res = await fetch(`${BASE_URL}/v1/chat/completions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(process.env.AI_API_KEY ? { Authorization: `Bearer ${process.env.AI_API_KEY}` } : {}),
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages,
-        stream: false,
-        temperature,
-        response_format: { type: "json_object" },
-      }),
-      signal: controller.signal,
-      cache: "no-store",
-    });
-    if (!res.ok) return null;
+  for (const provider of activeProviders()) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(provider.url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(provider.apiKey ? { Authorization: `Bearer ${provider.apiKey}` } : {}),
+        },
+        body: JSON.stringify({
+          model: provider.model,
+          messages,
+          stream: false,
+          temperature,
+          ...(provider.jsonMode ? { response_format: { type: "json_object" } } : {}),
+        }),
+        signal: controller.signal,
+        cache: "no-store",
+      });
+      if (!res.ok) continue;
 
-    const data = (await res.json()) as {
-      choices?: { message?: { content?: string } }[];
-    };
-    const raw = data.choices?.[0]?.message?.content;
-    if (!raw) return null;
+      const data = (await res.json()) as {
+        choices?: { message?: { content?: string } }[];
+      };
+      const raw = data.choices?.[0]?.message?.content;
+      if (!raw) continue;
 
-    const jsonText = extractJson(raw);
-    if (!jsonText) return null;
+      const jsonText = extractJson(raw);
+      if (!jsonText) continue;
 
-    const parsed = schema.safeParse(JSON.parse(jsonText));
-    return parsed.success ? parsed.data : null;
-  } catch {
-    return null;
-  } finally {
-    clearTimeout(timer);
+      const parsed = schema.safeParse(JSON.parse(jsonText));
+      if (parsed.success) return { value: parsed.data, provider: provider.id };
+    } catch {
+      // Try the next provider.
+    } finally {
+      clearTimeout(timer);
+    }
   }
+  return null;
+}
+
+async function aiValue<T>(
+  messages: ChatMessage[],
+  schema: z.ZodType<T>,
+  options?: { timeoutMs?: number; temperature?: number },
+): Promise<{ value: T | null; provider?: ProviderId }> {
+  const result = await chatJSON(messages, schema, options);
+  return { value: result?.value ?? null, provider: result?.provider };
 }
 
 /** Models sometimes wrap JSON in prose or ```json fences. Pull out the object. */
@@ -125,8 +177,8 @@ const eligibilitySchema = z.object({
 export async function analyzeEligibilitySmart(
   opportunity: Opportunity,
   profile: StudentProfile,
-): Promise<EligibilityResult & { source: "ai" | "heuristic"; model?: string }> {
-  const ai = await chatJSON(
+): Promise<EligibilityResult & { source: "ai" | "heuristic"; model?: string; provider?: ProviderId }> {
+  const { value: ai, provider } = await aiValue(
     [
       {
         role: "system",
@@ -162,6 +214,7 @@ export async function analyzeEligibilitySmart(
       signals: ai.signals,
       source: "ai",
       model: AI_DISPLAY_NAME,
+      provider,
     };
   }
   return { ...analyzeEligibility(opportunity, profile), source: "heuristic" };
@@ -189,14 +242,14 @@ const readinessSchema = z.object({
 export async function checkReadinessSmart(
   profile: StudentProfile,
   documents: DocumentItem[],
-): Promise<ReadinessResult & { source: "ai" | "heuristic"; model?: string }> {
+): Promise<ReadinessResult & { source: "ai" | "heuristic"; model?: string; provider?: ProviderId }> {
   const docLines = documents.length
     ? documents
         .map((d) => `- ${d.name} (${d.category}, ${d.status.toLowerCase()})`)
         .join("\n")
     : "- none uploaded";
 
-  const ai = await chatJSON(
+  const { value: ai, provider } = await aiValue(
     [
       {
         role: "system",
@@ -229,6 +282,7 @@ export async function checkReadinessSmart(
       missing: ai.missing,
       source: "ai",
       model: AI_DISPLAY_NAME,
+      provider,
     };
   }
   return { ...checkReadiness(profile, documents), source: "heuristic" };
@@ -260,7 +314,7 @@ export async function rankRecommendationsSmart(
   opportunities: Opportunity[],
   profile: StudentProfile,
   limit = 6,
-): Promise<{ items: RankedOpportunity[]; source: "ai" | "heuristic"; model?: string }> {
+): Promise<{ items: RankedOpportunity[]; source: "ai" | "heuristic"; model?: string; provider?: ProviderId }> {
   const catalogue = opportunities
     .map(
       (o) =>
@@ -268,7 +322,7 @@ export async function rankRecommendationsSmart(
     )
     .join("\n");
 
-  const ai = await chatJSON(
+  const { value: ai, provider } = await aiValue(
     [
       {
         role: "system",
@@ -295,7 +349,7 @@ export async function rankRecommendationsSmart(
       .filter((r) => valid.has(r.slug))
       .slice(0, limit)
       .map((r) => ({ slug: r.slug, score: Math.round(r.score), reason: r.reason }));
-    if (items.length) return { items, source: "ai", model: AI_DISPLAY_NAME };
+    if (items.length) return { items, source: "ai", model: AI_DISPLAY_NAME, provider };
   }
 
   // Heuristic fallback: interest + type match + deadline urgency.
@@ -347,8 +401,9 @@ export async function draftFieldSmart(input: {
   rationale: string;
   source: "ai" | "heuristic";
   model?: string;
+  provider?: ProviderId;
 }> {
-  const ai = await chatJSON(
+  const { value: ai, provider } = await aiValue(
     [
       {
         role: "system",
@@ -378,6 +433,7 @@ export async function draftFieldSmart(input: {
       confidence: Math.round(ai.confidence),
       source: "ai",
       model: AI_DISPLAY_NAME,
+      provider,
     };
   }
 
@@ -418,8 +474,8 @@ export async function reviewApplicationSmart(
   opportunity: Opportunity,
   profile: StudentProfile,
   fields: { label: string; value: string }[],
-): Promise<ReviewResult & { source: "ai" | "heuristic"; model?: string }> {
-  const ai = await chatJSON(
+): Promise<ReviewResult & { source: "ai" | "heuristic"; model?: string; provider?: ProviderId }> {
+  const { value: ai, provider } = await aiValue(
     [
       {
         role: "system",
@@ -451,6 +507,7 @@ export async function reviewApplicationSmart(
       ...ai,
       source: "ai",
       model: AI_DISPLAY_NAME,
+      provider,
     };
   }
   return { ...reviewApplication(opportunity, profile, fields), source: "heuristic" };
@@ -481,7 +538,7 @@ function profileFp(p: StudentProfile) {
 
 export function eligibilityFor(opportunity: Opportunity, profile: StudentProfile) {
   return withCache(
-    `elig:${MODEL}:${opportunity.slug}:${profileFp(profile)}`,
+    `elig:${CACHE_MODEL}:${opportunity.slug}:${profileFp(profile)}`,
     10 * 60 * 1000,
     () => analyzeEligibilitySmart(opportunity, profile),
   );
@@ -492,7 +549,7 @@ export function readinessFor(profile: StudentProfile, documents: DocumentItem[])
     documents.map((d) => `${d.name}|${d.category}|${d.status}`).sort(),
   );
   return withCache(
-    `ready:${MODEL}:${profileFp(profile)}:${docFp}`,
+    `ready:${CACHE_MODEL}:${profileFp(profile)}:${docFp}`,
     10 * 60 * 1000,
     () => checkReadinessSmart(profile, documents),
   );
@@ -504,7 +561,7 @@ export function recommendationsFor(
   limit = 6,
 ) {
   return withCache(
-    `recs:${MODEL}:${profileFp(profile)}:${limit}:${fingerprint(
+    `recs:${CACHE_MODEL}:${profileFp(profile)}:${limit}:${fingerprint(
       opportunities.map((o) => o.slug).sort(),
     )}`,
     15 * 60 * 1000,
@@ -514,41 +571,58 @@ export function recommendationsFor(
 
 export async function getAiStatus(): Promise<{
   enabled: boolean;
-  provider: "ollama";
+  provider: ProviderId | "none";
   baseUrl: string;
   model: string;
   displayName: string;
   reachable: boolean;
   modelAvailable: boolean;
 }> {
+  const providers = activeProviders();
+  const primary = providers[0];
   const base = {
-    enabled: ENABLED,
-    provider: "ollama" as const,
-    baseUrl: BASE_URL,
-    model: MODEL,
+    enabled: ENABLED && providers.length > 0,
+    provider: primary?.id ?? ("none" as const),
+    baseUrl: primary?.url ?? OLLAMA_BASE_URL,
+    model: primary?.model ?? OLLAMA_MODEL,
     displayName: AI_DISPLAY_NAME,
     reachable: false,
     modelAvailable: false,
   };
-  if (!ENABLED) return base;
+  if (!base.enabled || !primary) return base;
 
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 3000);
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 3000);
-    const res = await fetch(`${BASE_URL}/api/tags`, {
+    if (primary.id === "gemini") {
+      const res = await fetch(`${GEMINI_BASE_URL}/models`, {
+        headers: { Authorization: `Bearer ${primary.apiKey}` },
+        signal: controller.signal,
+        cache: "no-store",
+      });
+      if (!res.ok) return base;
+      const data = (await res.json()) as { data?: { id?: string }[] };
+      const ids = (data.data ?? []).map((m) => (m.id ?? "").replace(/^models\//, ""));
+      return { ...base, reachable: true, modelAvailable: ids.includes(primary.model) };
+    }
+
+    const res = await fetch(`${OLLAMA_BASE_URL}/api/tags`, {
       signal: controller.signal,
       cache: "no-store",
     });
-    clearTimeout(timer);
     if (!res.ok) return base;
     const data = (await res.json()) as { models?: { name?: string; model?: string }[] };
     const names = (data.models ?? []).map((m) => m.name ?? m.model ?? "");
     return {
       ...base,
       reachable: true,
-      modelAvailable: names.some((n) => n === MODEL || n.startsWith(`${MODEL}:`)),
+      modelAvailable: names.some(
+        (n) => n === primary.model || n.startsWith(`${primary.model}:`),
+      ),
     };
   } catch {
     return base;
+  } finally {
+    clearTimeout(timer);
   }
 }

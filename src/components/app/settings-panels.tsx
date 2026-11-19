@@ -253,14 +253,21 @@ function PrefPanel({
 }
 
 function AiStatusCard({ status }: { status: AiStatus }) {
+  const hosted = status.provider === "gemini";
   const live = status.enabled && status.reachable && status.modelAvailable;
   const state = !status.enabled
     ? { label: "Disabled", tone: "muted", detail: `${status.displayName} is turned off — the app uses rule-based estimates.` }
     : !status.reachable
-      ? { label: "Not connected", tone: "warning", detail: `Can't reach the on-device runtime at ${status.baseUrl}. Start Ollama to enable ${status.displayName}.` }
+      ? { label: "Not connected", tone: "warning", detail: hosted
+          ? `Can't reach the Gemini API. Check the GEMINI_API_KEY setting.`
+          : `Can't reach the on-device runtime at ${status.baseUrl}. Start Ollama to enable ${status.displayName}.` }
       : !status.modelAvailable
-        ? { label: "Model missing", tone: "warning", detail: `Runtime is up but the model isn't installed. Run: ollama pull ${status.model}` }
-        : { label: "On-device", tone: "success", detail: `${status.displayName} runs locally — powering eligibility, readiness, recommendations and the application assistant.` };
+        ? { label: "Model missing", tone: "warning", detail: hosted
+            ? `${status.model} isn't available for this API key.`
+            : `Runtime is up but the model isn't installed. Run: ollama pull ${status.model}` }
+        : { label: hosted ? "Hosted" : "On-device", tone: "success", detail: hosted
+            ? `${status.displayName} runs on Gemini (${status.model}) — powering eligibility, readiness, recommendations and the application assistant.`
+            : `${status.displayName} runs locally — powering eligibility, readiness, recommendations and the application assistant.` };
 
   return (
     <section className="rounded-2xl border border-border bg-card p-6 shadow-card">
@@ -274,7 +281,7 @@ function AiStatusCard({ status }: { status: AiStatus }) {
               AI engine · {status.displayName}
             </h3>
             <p className="text-xs text-muted-foreground">
-              On-device{live ? " · active" : " · standby"}
+              {hosted ? "Hosted" : "On-device"}{live ? " · active" : " · standby"}
             </p>
           </div>
         </div>
