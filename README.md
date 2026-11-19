@@ -2,6 +2,8 @@
 
 **Never Miss the Opportunity Meant for You.**
 
+**Live demo:** [https://opsauce.vercel.app](https://opsauce.vercel.app)
+
 OpSauce is a premium, AI-powered student opportunity discovery and application-assistance platform. It helps students find scholarships, internships, fellowships, and competitive exams, and provides an intelligent assistant to help them prepare high-quality applications.
 
 ---
