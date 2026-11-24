@@ -4,8 +4,8 @@
   "description": "AI-powered student opportunity discovery platform",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fbf8f1",
-  "theme_color": "#c94b3c",
+  "background_color": "#0e191b",
+  "theme_color": "#0e191b",
   "icons": [
     {
       "src": "/icon.svg",

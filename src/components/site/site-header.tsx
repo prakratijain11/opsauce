@@ -29,8 +29,9 @@ export function SiteHeader({ authed = false }: { authed?: boolean }) {
 
   React.useEffect(() => setOpen(false), [pathname]);
 
-  // These two marketing pages open with a dark editorial hero. In light theme
-  // the transparent header must use light ink until the surface scrolls in.
+  // The sticky header sits on the light page surface before the dark hero
+  // begins, so it must use normal theme ink in light mode. Dark mode is left
+  // exactly as designed.
   const overDarkHero = !scrolled && (pathname === "/" || pathname === "/about");
 
   return (
@@ -40,13 +41,13 @@ export function SiteHeader({ authed = false }: { authed?: boolean }) {
         scrolled
           ? "border-b border-border bg-background/85 text-foreground shadow-soft backdrop-blur-xl dark:bg-background/80 dark:shadow-none"
           : overDarkHero
-            ? "border-b border-white/10 bg-transparent text-white"
-            : "border-b border-transparent bg-transparent text-foreground",
+            ? "border-b border-border/60 bg-background/60 text-foreground dark:border-white/10 dark:bg-transparent dark:text-white"
+            : "border-b border-transparent bg-transparent text-foreground dark:text-white",
       )}
     >
       <div className="container flex h-16 items-center justify-between gap-4">
         <Link href="/" className="focus-ring rounded-lg">
-          <Logo onDark={overDarkHero} />
+          <Logo />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
@@ -57,7 +58,7 @@ export function SiteHeader({ authed = false }: { authed?: boolean }) {
               className={cn(
                 "rounded-full px-4 py-2 text-sm font-medium transition-colors",
                 overDarkHero
-                  ? "text-white/80 hover:bg-white/10 hover:text-white dark:text-muted-foreground dark:hover:bg-secondary dark:hover:text-foreground"
+                  ? "text-muted-foreground hover:bg-secondary/70 hover:text-foreground dark:text-muted-foreground dark:hover:bg-secondary dark:hover:text-foreground"
                   : "text-muted-foreground hover:bg-secondary hover:text-foreground",
               )}
             >
@@ -67,7 +68,7 @@ export function SiteHeader({ authed = false }: { authed?: boolean }) {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
-          <ThemeToggle className={cn(overDarkHero && "border-white/20 bg-white/10 text-white hover:border-white/30 hover:bg-white/20 hover:text-white dark:border-border dark:bg-card dark:text-muted-foreground dark:hover:border-primary/30 dark:hover:bg-accent/40 dark:hover:text-primary")} />
+          <ThemeToggle className={cn(overDarkHero && "border-border bg-card/80 text-muted-foreground hover:border-primary/30 hover:bg-accent/40 hover:text-primary dark:border-border dark:bg-card dark:text-muted-foreground dark:hover:border-primary/30 dark:hover:bg-accent/40 dark:hover:text-primary")} />
           {authed ? (
             <Button href="/dashboard" size="sm">
               Open dashboard
@@ -78,7 +79,7 @@ export function SiteHeader({ authed = false }: { authed?: boolean }) {
                 href="/sign-in"
                 variant="ghost"
                 size="sm"
-                className={cn(overDarkHero && "text-white/85 hover:bg-white/10 hover:text-white dark:text-foreground dark:hover:bg-secondary")}
+                className={cn(overDarkHero && "text-foreground hover:bg-secondary hover:text-primary dark:text-foreground dark:hover:bg-secondary")}
               >
                 Sign in
               </Button>
@@ -94,8 +95,8 @@ export function SiteHeader({ authed = false }: { authed?: boolean }) {
           className={cn(
             "focus-ring inline-flex h-10 w-10 items-center justify-center rounded-full border md:hidden",
             overDarkHero
-              ? "border-white/20 text-white dark:border-border dark:text-foreground"
-              : "border-border",
+              ? "border-border text-foreground dark:border-border dark:text-white"
+              : "border-border text-foreground dark:text-white",
           )}
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
