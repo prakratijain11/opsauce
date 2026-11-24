@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
   <defs>
-    <linearGradient id="opsauce-grad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#7C3AED" />
-      <stop offset="0.5" stop-color="#6366F1" />
-      <stop offset="1" stop-color="#8B5CF6" />
+    <linearGradient id="opsauce-mark" x1="7" y1="4" x2="41" y2="45" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#d9604b" />
+      <stop offset="0.55" stop-color="#c94b3c" />
+      <stop offset="1" stop-color="#9e362c" />
     </linearGradient>
   </defs>
-  <rect width="48" height="48" rx="13" fill="url(#opsauce-grad)" />
-  <rect width="48" height="48" rx="13" fill="white" fill-opacity="0.04" />
-  <path d="M17 33V19a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v14" stroke="white" stroke-width="2.6" stroke-linecap="round" />
-  <path d="M24 33V24" stroke="white" stroke-width="2.6" stroke-linecap="round" />
-  <circle cx="24" cy="21" r="1.9" fill="white" />
-  <path d="M13 33h22" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-opacity="0.55" />
+  <rect width="48" height="48" rx="14" fill="url(#opsauce-mark)" />
+  <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="13.25" stroke="#fefbf0" stroke-opacity="0.22" stroke-width="1.5" />
+  <path d="M13.5 30.5C15.8 21.4 22.6 16.4 32.8 17.2" stroke="#f0d98d" stroke-opacity="0.24" stroke-width="6" stroke-linecap="round" />
+  <path d="M34.34 27.76A11 11 0 1 1 28.65 14.03" stroke="#fefbf0" stroke-width="3.2" stroke-linecap="round" />
+  <path d="M24 17.1c3.35 4.75 5.02 7.1 5.02 9.42a5.02 5.02 0 1 1-10.04 0c0-2.32 1.67-4.67 5.02-9.42Z" fill="#f0d98d" />
+  <circle cx="35.1" cy="13.6" r="2.5" fill="#76afc0" />
 </svg>

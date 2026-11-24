@@ -13,11 +13,14 @@ export function AppTopbar({
 }) {
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border bg-background/80 px-5 backdrop-blur-xl sm:px-8">
-      <h1 className="font-display text-lg font-semibold tracking-tight">{title}</h1>
+      <h1 className="flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight">
+        <span aria-hidden className="h-4 w-1 rounded-full bg-brand-gradient" />
+        {title}
+      </h1>
 
       <Link
         href="/explore"
-        className="ml-auto hidden items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground sm:flex sm:w-72"
+        className="ml-auto hidden items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-sm text-muted-foreground shadow-soft transition-colors hover:border-teal-300 hover:text-foreground dark:hover:border-teal-700 sm:flex sm:w-72"
       >
         <Search className="h-4 w-4" />
         <span className="truncate">Search opportunities…</span>

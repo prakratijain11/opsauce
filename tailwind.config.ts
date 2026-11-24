@@ -1,5 +1,64 @@
 import type { Config } from "tailwindcss";
 
+/* OpSauce palette — sampled from the reference moodboard:
+   terracotta #C94B3C · butter #F0D98D · lagoon teal #76AFC0
+   Grounded in warm paper (light) and deep teal ink (dark). */
+const terracotta = {
+  50: "#fdf3f0",
+  100: "#fbe4de",
+  200: "#f5c7bc",
+  300: "#eda394",
+  400: "#df7662",
+  500: "#c94b3c",
+  600: "#b24032",
+  700: "#91342a",
+  800: "#742e27",
+  900: "#5d2b25",
+  950: "#33130f",
+};
+
+const teal = {
+  50: "#f1f7f8",
+  100: "#dfedf0",
+  200: "#c3dde3",
+  300: "#9bc7d2",
+  400: "#76afc0",
+  500: "#5995a7",
+  600: "#477884",
+  700: "#3b626b",
+  800: "#345057",
+  900: "#2c4348",
+  950: "#18292d",
+};
+
+const sand = {
+  50: "#fefbf0",
+  100: "#fcf3d9",
+  200: "#f7e7b5",
+  300: "#f0d98d",
+  400: "#e5c46b",
+  500: "#c9a44e",
+  600: "#a6833b",
+  700: "#816630",
+  800: "#6b552d",
+  900: "#5b492b",
+  950: "#362a18",
+};
+
+const ink = {
+  50: "#f8f9f7",
+  100: "#ecf0ed",
+  200: "#d7deda",
+  300: "#b4c2bd",
+  400: "#8aa09b",
+  500: "#66817c",
+  600: "#4b6662",
+  700: "#3a5050",
+  800: "#273a3b",
+  900: "#172527",
+  950: "#0e191b",
+};
+
 const config: Config = {
   darkMode: ["class"],
   content: [
@@ -13,7 +72,7 @@ const config: Config = {
       center: true,
       padding: "1.5rem",
       screens: {
-        "2xl": "1200px",
+        "2xl": "1240px",
       },
     },
     extend: {
@@ -64,54 +123,40 @@ const config: Config = {
           DEFAULT: "hsl(var(--danger))",
           foreground: "hsl(var(--danger-foreground))",
         },
-        brand: {
-          50: "#f5f3ff",
-          100: "#ede9fe",
-          200: "#ddd6fe",
-          300: "#c4b5fd",
-          400: "#a78bfa",
-          500: "#8b5cf6",
-          600: "#7c3aed",
-          700: "#6d28d9",
-          800: "#5b21b6",
-          900: "#4c1d95",
-          950: "#2e1065",
-        },
-        ink: {
-          50: "#f4f6fb",
-          100: "#e7ebf5",
-          200: "#c9d2e6",
-          300: "#9caed0",
-          400: "#6a80b3",
-          500: "#495f95",
-          600: "#394b79",
-          700: "#2f3d62",
-          800: "#1c2542",
-          900: "#0f1730",
-          950: "#080c1c",
-        },
+        brand: terracotta,
+        terracotta,
+        teal,
+        sand,
+        ink,
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 4px)",
-        sm: "calc(var(--radius) - 8px)",
+        sm: "calc(var(--radius) - 6px)",
         xl: "calc(var(--radius) + 4px)",
         "2xl": "calc(var(--radius) + 10px)",
       },
       boxShadow: {
-        soft: "0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06)",
-        card: "0 4px 12px -2px rgba(16, 24, 40, 0.06), 0 2px 6px -2px rgba(16, 24, 40, 0.04)",
+        soft: "0 1px 2px rgba(70, 48, 30, 0.04), 0 3px 10px -4px rgba(70, 48, 30, 0.08)",
+        card: "0 2px 4px -2px rgba(70, 48, 30, 0.06), 0 12px 28px -16px rgba(23, 37, 39, 0.22)",
         elevated:
-          "0 20px 40px -12px rgba(16, 24, 40, 0.12), 0 8px 16px -8px rgba(16, 24, 40, 0.08)",
-        glow: "0 0 0 1px rgba(124, 58, 237, 0.12), 0 12px 40px -8px rgba(124, 58, 237, 0.35)",
+          "0 28px 56px -24px rgba(23, 37, 39, 0.32), 0 8px 18px -10px rgba(70, 48, 30, 0.18)",
+        glow: "0 0 0 1px rgba(201, 75, 60, 0.14), 0 16px 40px -14px rgba(201, 75, 60, 0.38)",
+        teal: "0 0 0 1px rgba(89, 149, 167, 0.16), 0 14px 36px -16px rgba(89, 149, 167, 0.42)",
       },
       backgroundImage: {
         "brand-gradient":
-          "linear-gradient(135deg, #7c3aed 0%, #6366f1 50%, #8b5cf6 100%)",
+          "linear-gradient(135deg, #c94b3c 0%, #b24032 55%, #91342a 100%)",
+        "teal-gradient":
+          "linear-gradient(135deg, #8fc3d0 0%, #5995a7 100%)",
+        "sand-gradient":
+          "linear-gradient(135deg, #f7e7b5 0%, #e5c46b 100%)",
         "brand-radial":
-          "radial-gradient(120% 120% at 0% 0%, #4c1d95 0%, #0f1730 45%, #080c1c 100%)",
+          "radial-gradient(125% 125% at 0% 0%, #3c231e 0%, #1a2527 48%, #0d1719 100%)",
+        "ink-radial":
+          "radial-gradient(120% 120% at 0% 0%, #1d3739 0%, #111e20 52%, #0d1719 100%)",
         "grid-faint":
-          "linear-gradient(to right, rgba(148,163,184,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(148,163,184,0.08) 1px, transparent 1px)",
+          "linear-gradient(to right, rgba(89,149,167,0.09) 1px, transparent 1px), linear-gradient(to bottom, rgba(89,149,167,0.09) 1px, transparent 1px)",
       },
       keyframes: {
         "fade-up": {

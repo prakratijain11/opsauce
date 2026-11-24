@@ -3,7 +3,8 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check, Loader2, Sparkles } from "lucide-react";
-import { LogoMark } from "@/components/brand/logo";
+import { Logo, LogoMark } from "@/components/brand/logo";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { completeOnboardingAction } from "@/lib/actions/profile";
@@ -134,11 +135,9 @@ export function OnboardingFlow({ name }: { name: string }) {
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-xl flex-col px-6 py-12">
-      <div className="mb-8 flex items-center gap-2.5">
-        <LogoMark className="h-9 w-9" />
-        <span className="font-display text-lg font-bold tracking-tight">
-          Op<span className="text-brand-500">Sauce</span>
-        </span>
+      <div className="mb-8 flex items-center justify-between gap-4">
+        <Logo showAiChip={false} />
+        <ThemeToggle />
       </div>
 
       <div className="mb-8">

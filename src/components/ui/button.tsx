@@ -9,12 +9,12 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-brand-gradient text-white shadow-glow hover:brightness-110 hover:shadow-[0_16px_50px_-8px_rgba(124,58,237,0.5)]",
+          "bg-brand-gradient text-white shadow-glow hover:brightness-[1.06] hover:shadow-[0_18px_46px_-10px_rgba(201,75,60,0.55)]",
         secondary:
-          "border border-border bg-card text-foreground shadow-soft hover:bg-secondary",
-        ghost: "text-foreground hover:bg-secondary",
+          "border border-border bg-card text-foreground shadow-soft hover:border-teal-300/70 hover:bg-teal-50 dark:hover:border-teal-700/50 dark:hover:bg-teal-900/30",
+        ghost: "text-foreground hover:bg-secondary hover:text-primary",
         outline:
-          "border border-brand-300 text-brand-700 hover:bg-brand-50 dark:border-brand-500/40 dark:text-brand-200 dark:hover:bg-brand-500/10",
+          "border border-brand-300 text-brand-700 hover:bg-brand-50 dark:border-brand-500/40 dark:text-brand-300 dark:hover:bg-brand-500/10",
         subtle: "bg-secondary text-secondary-foreground hover:bg-muted",
         danger: "bg-danger text-danger-foreground hover:brightness-110",
       },

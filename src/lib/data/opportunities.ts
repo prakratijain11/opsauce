@@ -21,7 +21,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Offline",
     status: "Open",
     logoText: "GATE",
-    logoColor: "#2563eb",
+    logoColor: "#477884",
     eligibility: [
       "Bachelor's degree in Engineering / Technology (or final year)",
       "Master's degree in any relevant science subject",
@@ -52,7 +52,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Online",
     status: "Open",
     logoText: "AWS",
-    logoColor: "#f59e0b",
+    logoColor: "#816630",
     eligibility: [
       "Open to all — no prerequisites",
       "Recommended: 6 months of exposure to AWS Cloud",
@@ -78,7 +78,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Online",
     status: "Open",
     logoText: "AI",
-    logoColor: "#7c3aed",
+    logoColor: "#c94b3c",
     eligibility: ["Open to all", "No experience with AI required"],
     tags: ["AI/ML", "Productivity", "NEW"],
     officialUrl: "https://grow.google/ai-essentials",
@@ -100,7 +100,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Hybrid",
     status: "Open",
     logoText: "TCS",
-    logoColor: "#0ea5e9",
+    logoColor: "#345057",
     eligibility: [
       "Students in final year of graduation / post-graduation",
       "Recent graduates (as per year of passing criteria)",
@@ -126,7 +126,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Offline",
     status: "Upcoming",
     logoText: "SIH",
-    logoColor: "#16a34a",
+    logoColor: "#4b6662",
     eligibility: [
       "Teams of 6 (at least one female member)",
       "Students from AICTE-approved institutions",
@@ -153,7 +153,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Online",
     status: "Open",
     logoText: "RF",
-    logoColor: "#e11d48",
+    logoColor: "#91342a",
     eligibility: [
       "First-year undergraduate students",
       "Family income below the specified threshold",
@@ -180,7 +180,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Hybrid",
     status: "Open",
     logoText: "MSR",
-    logoColor: "#2563eb",
+    logoColor: "#477884",
     eligibility: [
       "Enrolled in a Bachelor's / Master's / PhD programme",
       "Strong background in CS fundamentals",
@@ -206,7 +206,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Offline",
     status: "Upcoming",
     logoText: "PMRF",
-    logoColor: "#7c3aed",
+    logoColor: "#c94b3c",
     eligibility: [
       "Completing / completed B.Tech, Integrated M.Tech or M.Sc",
       "Meets CGPA / GATE criteria",
@@ -232,7 +232,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Online",
     status: "Open",
     logoText: "IITM",
-    logoColor: "#0f766e",
+    logoColor: "#3b626b",
     eligibility: [
       "Anyone who has passed Class 12",
       "Must have studied Maths & English in Class 10",
@@ -258,7 +258,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Offline",
     status: "Upcoming",
     logoText: "UPSC",
-    logoColor: "#4338ca",
+    logoColor: "#273a3b",
     eligibility: [
       "Bachelor's degree in any discipline",
       "Age 21–32 years (relaxations apply)",
@@ -285,7 +285,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Offline",
     status: "Open",
     logoText: "DLW",
-    logoColor: "#db2777",
+    logoColor: "#b24032",
     eligibility: [
       "Undergraduate / postgraduate students",
       "Familiarity with Python and basic ML",
@@ -311,7 +311,7 @@ export const OPPORTUNITIES: Opportunity[] = [
     mode: "Online",
     status: "Upcoming",
     logoText: "GSoC",
-    logoColor: "#ea580c",
+    logoColor: "#6b552d",
     eligibility: [
       "18 years or older",
       "New or beginner contributor to open source",

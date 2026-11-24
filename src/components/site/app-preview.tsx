@@ -5,7 +5,7 @@ export function AppPreview() {
   return (
     <div className="relative mx-auto w-full max-w-md">
       <div className="absolute -inset-8 -z-10 rounded-[2.5rem] bg-brand-gradient opacity-20 blur-3xl" />
-      <div className="overflow-hidden rounded-[2rem] border border-border bg-card shadow-elevated">
+      <div className="overflow-hidden rounded-[2rem] border border-border bg-card text-card-foreground shadow-elevated dark:text-white">
         {/* top bar */}
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div>
@@ -29,7 +29,7 @@ export function AppPreview() {
         <div className="px-5 py-4">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-sm font-semibold">Next 3 Deadlines</p>
-            <span className="text-xs font-medium text-brand-600">View All</span>
+            <span className="text-xs font-medium text-primary">View All</span>
           </div>
           <div className="flex flex-col gap-2">
             <DeadlineRow
@@ -55,7 +55,7 @@ export function AppPreview() {
 
         {/* recommendation */}
         <div className="border-t border-border bg-secondary/50 px-5 py-4">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-brand-600">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-primary">
             <Sparkles className="h-3.5 w-3.5" />
             Recommended for you
           </div>

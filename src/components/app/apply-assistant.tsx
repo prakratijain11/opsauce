@@ -324,7 +324,7 @@ export function ApplyAssistant({
                         <span className={cn(
                           "text-xs font-medium px-2 py-0.5 rounded-full",
                           reviewResult.score >= 80 ? "bg-success/20 text-success" :
-                          reviewResult.score >= 60 ? "bg-warning/20 text-warning" : "bg-destructive/20 text-destructive"
+                          reviewResult.score >= 60 ? "bg-warning/20 text-sand-800 dark:text-warning" : "bg-danger/15 text-danger"
                         )}>
                           {reviewResult.score >= 80 ? "Strong" : reviewResult.score >= 60 ? "Good" : "Needs Work"}
                         </span>
@@ -334,7 +334,7 @@ export function ApplyAssistant({
                         {reviewResult.findings.map((f: any, i: number) => (
                           <div key={i} className="flex gap-2 text-xs p-2 rounded-lg bg-white/50 dark:bg-card/50 border border-border">
                             {f.severity === "critical" ? (
-                              <AlertCircle className="h-3.5 w-3.5 shrink-0 text-destructive" />
+                              <AlertCircle className="h-3.5 w-3.5 shrink-0 text-danger" />
                             ) : (
                               <Lightbulb className="h-3.5 w-3.5 shrink-0 text-brand-500" />
                             )}

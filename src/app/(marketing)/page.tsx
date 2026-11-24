@@ -45,42 +45,53 @@ const STEPS = [
   },
 ];
 
+const FEATURE_TONES = [
+  "bg-terracotta-50 text-terracotta-600 dark:bg-terracotta-500/15 dark:text-terracotta-300",
+  "bg-teal-50 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300",
+  "bg-sand-100 text-sand-800 dark:bg-sand-300/15 dark:text-sand-200",
+];
+
 export default function HomePage() {
   return (
     <>
-      {/* ── Hero ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px] bg-brand-radial" />
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-dotted opacity-[0.15]" />
-        <div className="container grid gap-16 py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-28">
+      {/* ── Hero — an editorial cover, dark in both themes ── */}
+      <section className="relative overflow-hidden bg-ink-radial text-white">
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-dotted opacity-[0.13]" />
+        <div aria-hidden className="pointer-events-none absolute -left-32 top-0 h-80 w-80 rounded-full bg-terracotta-500/20 blur-3xl" />
+        <div aria-hidden className="pointer-events-none absolute -bottom-40 right-0 h-96 w-96 rounded-full bg-teal-400/10 blur-3xl" />
+        <div className="container relative grid gap-16 py-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-28">
           <Reveal className="flex flex-col items-start gap-6">
-            <span className="eyebrow border-white/15 bg-white/10 text-white/80">
+            <span className="eyebrow border-white/15 bg-white/10 text-white/80 before:bg-sand-300">
               <Sparkles className="h-3.5 w-3.5" /> AI-powered opportunity discovery
             </span>
-            <h1 className="font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl">
+            <h1 className="font-display text-4xl font-bold leading-[1.05] tracking-[-0.045em] sm:text-6xl">
               Never miss the opportunity{" "}
-              <span className="text-gradient">meant for you.</span>
+              <span className="text-gradient-sand">meant for you.</span>
             </h1>
             <p className="max-w-xl text-lg leading-relaxed text-white/70">
               {BRAND.description}
             </p>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button href="/sign-up" size="lg" className="shadow-glow hover:scale-105 transition-transform relative overflow-hidden group">
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              <Button
+                href="/sign-up"
+                size="lg"
+                className="group relative overflow-hidden transition-transform hover:scale-[1.02]"
+              >
                 <span className="relative z-10 flex items-center gap-2">
                   Get Started <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-linear pointer-events-none" />
+                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ease-linear group-hover:translate-x-full" />
               </Button>
               <Button
                 href="/explore"
                 size="lg"
                 variant="secondary"
-                className="bg-white/10 text-white hover:bg-white/20 border-white/20 backdrop-blur-md transition-colors"
+                className="border-white/20 bg-white/10 text-white backdrop-blur-md hover:border-white/30 hover:bg-white/20"
               >
                 I already have an account
               </Button>
             </div>
-            <dl className="mt-4 grid grid-cols-3 gap-6 border-t border-white/10 pt-6 text-white">
+            <dl className="mt-4 grid w-full grid-cols-3 gap-4 border-t border-white/15 pt-6 sm:gap-8">
               <Stat value="11" label="Opportunity types" />
               <Stat value="1 timeline" label="Every deadline" />
               <Stat value="You decide" label="AI assists, never submits" />
@@ -94,12 +105,12 @@ export default function HomePage() {
       </section>
 
       {/* ── Categories marquee ───────────────────────────── */}
-      <section className="border-y border-border bg-secondary/40 py-10">
+      <section className="border-b border-border bg-secondary/40 py-10">
         <div className="container flex flex-wrap justify-center gap-2.5">
           {OPPORTUNITY_CATEGORIES.map((c) => (
             <span
               key={c}
-              className="rounded-full border border-border bg-card px-3.5 py-1.5 text-sm font-medium text-muted-foreground"
+              className="rounded-full border border-border/80 bg-card/80 px-3.5 py-1.5 text-sm font-medium text-muted-foreground shadow-soft transition-colors hover:border-teal-300 hover:text-teal-700 dark:hover:border-teal-700 dark:hover:text-teal-300"
             >
               {c}
             </span>
@@ -112,19 +123,23 @@ export default function HomePage() {
         <div className="container">
           <Reveal className="mx-auto max-w-2xl text-center">
             <span className="eyebrow">How it works</span>
-            <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">
+            <h2 className="mt-5 text-3xl font-semibold sm:text-4xl">
               From lost in tabs to fully prepared
             </h2>
+            <p className="mt-4 text-muted-foreground">
+              Four deliberate steps between finding an opportunity and being ready for it.
+            </p>
           </Reveal>
           <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {STEPS.map((s, i) => (
               <Reveal key={s.title} delay={i * 0.07}>
-                <div className="flex h-full flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-card">
+                <div className="card-lift relative flex h-full flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-card">
+                  <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-terracotta-400 via-sand-300 to-teal-400 opacity-80" />
                   <div className="flex items-center justify-between">
                     <div className="grid h-11 w-11 place-items-center rounded-xl bg-brand-gradient text-white shadow-glow">
-                      <s.icon className="h-5 w-5" />
+                      <s.icon className="h-5 w-5" strokeWidth={1.8} />
                     </div>
-                    <span className="font-display text-2xl font-bold text-border">
+                    <span className="font-display text-2xl font-bold text-foreground/25 dark:text-border">
                       0{i + 1}
                     </span>
                   </div>
@@ -146,7 +161,7 @@ export default function HomePage() {
         <div className="container">
           <Reveal className="mx-auto max-w-2xl text-center">
             <span className="eyebrow">The platform</span>
-            <h2 className="mt-4 text-3xl font-semibold sm:text-4xl">
+            <h2 className="mt-5 text-3xl font-semibold sm:text-4xl">
               Everything you need in one place
             </h2>
           </Reveal>
@@ -155,9 +170,9 @@ export default function HomePage() {
               const Icon = ICONS[f.icon as keyof typeof ICONS] ?? Sparkles;
               return (
                 <Reveal key={f.title} delay={i * 0.06}>
-                  <div className="flex h-full flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-1 hover:shadow-elevated">
-                    <div className="grid h-12 w-12 place-items-center rounded-xl bg-accent text-accent-foreground">
-                      <Icon className="h-5 w-5" />
+                  <div className="card-lift flex h-full flex-col gap-4 rounded-2xl border border-border bg-card p-6 shadow-card">
+                    <div className={`grid h-12 w-12 place-items-center rounded-xl ${FEATURE_TONES[i % 3]}`}>
+                      <Icon className="h-5 w-5" strokeWidth={1.8} />
                     </div>
                     <h3 className="font-display text-lg font-semibold tracking-tight">
                       {f.title}
@@ -173,20 +188,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA ──────────────────────────────────────────── */}
+      {/* ── CTA — a confident terracotta closer ──────────── */}
       <section className="py-20 sm:py-28">
         <div className="container">
-          <Reveal className="relative overflow-hidden rounded-3xl border border-border bg-brand-radial p-10 text-center sm:p-16">
-            <div className="pointer-events-none absolute inset-0 bg-dotted opacity-20" />
+          <Reveal className="relative overflow-hidden rounded-3xl border border-white/15 bg-brand-gradient p-10 text-center text-white shadow-elevated sm:p-16">
+            <div aria-hidden className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-sand-300/25 blur-3xl" />
+            <div aria-hidden className="pointer-events-none absolute inset-0 bg-dotted opacity-[0.12]" />
             <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-6">
-              <h2 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              <span className="eyebrow border-white/20 bg-white/10 text-white/85 before:bg-sand-300">
+                Your move
+              </span>
+              <h2 className="font-display text-3xl font-bold tracking-[-0.035em] sm:text-4xl">
                 Your next opportunity is already out there.
               </h2>
-              <p className="text-white/70">
+              <p className="text-white/80">
                 Join {BRAND.name} and let intelligent discovery, deadline tracking
                 and AI guidance keep you a step ahead.
               </p>
-              <Button href="/sign-up" size="lg">
+              <Button href="/sign-up" size="lg" variant="secondary" className="border-transparent bg-white text-terracotta-700 shadow-elevated hover:bg-sand-50 hover:text-terracotta-800">
                 Get Started <ArrowRight className="h-4 w-4" />
               </Button>
             </div>
@@ -200,8 +219,10 @@ export default function HomePage() {
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <dt className="font-display text-lg font-bold">{value}</dt>
-      <dd className="text-xs text-white/55">{label}</dd>
+      <dt className="font-display text-lg font-bold text-white">{value}</dt>
+      <dd className="text-[0.68rem] uppercase leading-snug tracking-[0.12em] text-white/50">
+        {label}
+      </dd>
     </div>
   );
 }

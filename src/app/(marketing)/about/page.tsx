@@ -25,6 +25,12 @@ export const metadata: Metadata = {
   description: BRAND.subtitle,
 };
 
+const FEATURE_TONES = [
+  "bg-terracotta-50 text-terracotta-600 dark:bg-terracotta-500/15 dark:text-terracotta-300",
+  "bg-teal-50 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300",
+  "bg-sand-100 text-sand-800 dark:bg-sand-300/15 dark:text-sand-200",
+];
+
 const ICONS = {
   Compass,
   CalendarClock,
@@ -43,7 +49,7 @@ export default function AboutPage() {
         <div className="pointer-events-none absolute inset-0 bg-dotted opacity-30" />
         <div className="container relative py-24 sm:py-32">
           <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-            <span className="eyebrow border-white/15 bg-white/10 text-white/80">
+            <span className="eyebrow border-white/15 bg-white/10 text-white/80 before:bg-sand-300">
               About the platform
             </span>
             <h1 className="font-display text-4xl font-bold tracking-tight text-white sm:text-6xl">
@@ -123,7 +129,7 @@ export default function AboutPage() {
                 <Reveal key={f.title} delay={i * 0.06}>
                   <article className="group relative flex h-full flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-card transition-all duration-500 hover:-translate-y-1 hover:shadow-elevated">
                     <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-brand-gradient opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-[0.14]" />
-                    <div className="grid h-12 w-12 place-items-center rounded-xl bg-brand-gradient text-white shadow-glow">
+                    <div className={`grid h-12 w-12 place-items-center rounded-xl ${FEATURE_TONES[i % 3]}`}>
                       <Icon className="h-5 w-5" />
                     </div>
                     <h3 className="font-display text-lg font-semibold tracking-tight">
@@ -149,7 +155,7 @@ export default function AboutPage() {
             <span className="grid h-14 w-14 place-items-center rounded-2xl border border-white/15 bg-white/10 text-white">
               <Target className="h-6 w-6" />
             </span>
-            <span className="eyebrow border-white/15 bg-white/10 text-white/80">
+            <span className="eyebrow border-white/15 bg-white/10 text-white/80 before:bg-sand-300">
               Our Vision
             </span>
             <p className="font-display text-2xl font-semibold leading-snug tracking-tight text-white sm:text-4xl">

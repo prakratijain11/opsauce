@@ -21,7 +21,7 @@ function rowToOpportunity(row: any): Opportunity {
     mode: row.mode,
     status: row.status,
     logoText: row.logoText ?? row.title.slice(0, 4).toUpperCase(),
-    logoColor: row.logoColor ?? "#7c3aed",
+    logoColor: row.logoColor ?? "#c94b3c",
     eligibility: safeJsonArray(row.eligibility),
     tags: safeJsonArray(row.tags),
     officialUrl: row.officialUrl ?? undefined,

@@ -4,78 +4,93 @@
 
 /* ────────────────────────────────────────────────────────────────
    OpSauce — Design System Tokens
-   Premium, calm, high-contrast. Violet/indigo brand on ink surfaces.
+   A curated palette: terracotta, butter and lagoon on warm paper.
+   Light = sunlit paper. Dark = deep teal ink. Both are intentional.
    ──────────────────────────────────────────────────────────────── */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 39% 10%;
+    --background: 43 44% 97%;
+    --foreground: 175 24% 12%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 224 39% 10%;
+    --card: 45 60% 99%;
+    --card-foreground: 175 24% 12%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 39% 10%;
+    --popover: 45 60% 99%;
+    --popover-foreground: 175 24% 12%;
 
-    --primary: 262 83% 58%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 6 57% 51%;
+    --primary-foreground: 45 60% 98%;
 
-    --secondary: 240 30% 96%;
-    --secondary-foreground: 224 39% 14%;
+    --secondary: 190 30% 94%;
+    --secondary-foreground: 190 42% 22%;
 
-    --muted: 240 20% 96%;
-    --muted-foreground: 224 12% 44%;
+    --muted: 40 30% 94%;
+    --muted-foreground: 178 10% 39%;
 
-    --accent: 250 84% 96%;
-    --accent-foreground: 262 60% 34%;
+    --accent: 46 77% 75%;
+    --accent-foreground: 32 45% 20%;
 
-    --success: 152 60% 40%;
-    --success-foreground: 0 0% 100%;
-    --warning: 33 92% 50%;
-    --warning-foreground: 30 40% 12%;
-    --danger: 352 78% 54%;
-    --danger-foreground: 0 0% 100%;
+    --success: 166 48% 32%;
+    --success-foreground: 45 60% 98%;
+    --warning: 34 82% 42%;
+    --warning-foreground: 45 60% 98%;
+    --danger: 5 68% 45%;
+    --danger-foreground: 45 60% 98%;
 
-    --border: 240 18% 90%;
-    --input: 240 18% 88%;
-    --ring: 262 83% 58%;
+    --border: 38 24% 87%;
+    --input: 38 22% 83%;
+    --ring: 6 57% 51%;
 
-    --radius: 0.9rem;
+    /* Atmosphere */
+    --glow-one: 46 80% 78%;
+    --glow-two: 194 45% 80%;
+    --glass-bg: 45 60% 99%;
+    --glass-border: 38 30% 88%;
+    --dot: 6 57% 51%;
+
+    --radius: 0.85rem;
   }
 
   .dark {
-    --background: 226 44% 6%;
-    --foreground: 220 30% 96%;
+    --background: 187 30% 8%;
+    --foreground: 43 40% 92%;
 
-    --card: 225 38% 9%;
-    --card-foreground: 220 30% 96%;
+    --card: 187 24% 11%;
+    --card-foreground: 43 40% 92%;
 
-    --popover: 225 40% 8%;
-    --popover-foreground: 220 30% 96%;
+    --popover: 187 25% 12%;
+    --popover-foreground: 43 40% 92%;
 
-    --primary: 258 90% 68%;
-    --primary-foreground: 226 44% 8%;
+    --primary: 9 75% 63%;
+    --primary-foreground: 187 32% 9%;
 
-    --secondary: 226 30% 15%;
-    --secondary-foreground: 220 30% 94%;
+    --secondary: 187 20% 17%;
+    --secondary-foreground: 190 30% 88%;
 
-    --muted: 226 28% 14%;
-    --muted-foreground: 222 16% 64%;
+    --muted: 187 18% 16%;
+    --muted-foreground: 185 14% 65%;
 
-    --accent: 258 40% 20%;
-    --accent-foreground: 250 90% 90%;
+    --accent: 46 77% 75%;
+    --accent-foreground: 187 32% 10%;
 
-    --success: 152 55% 46%;
-    --success-foreground: 226 44% 8%;
-    --warning: 33 92% 56%;
-    --warning-foreground: 30 40% 10%;
-    --danger: 352 80% 62%;
-    --danger-foreground: 226 44% 8%;
+    --success: 166 45% 48%;
+    --success-foreground: 187 32% 9%;
+    --warning: 38 85% 62%;
+    --warning-foreground: 187 32% 9%;
+    --danger: 6 80% 66%;
+    --danger-foreground: 187 32% 9%;
 
-    --border: 226 24% 18%;
-    --input: 226 24% 20%;
-    --ring: 258 90% 68%;
+    --border: 187 16% 22%;
+    --input: 187 16% 26%;
+    --ring: 9 75% 63%;
+
+    /* Atmosphere */
+    --glow-one: 190 38% 22%;
+    --glow-two: 6 45% 20%;
+    --glass-bg: 187 24% 13%;
+    --glass-border: 187 18% 26%;
+    --dot: 194 37% 61%;
   }
 }
 
@@ -90,17 +105,28 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply text-foreground font-sans antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
     text-rendering: optimizeLegibility;
+    background-color: hsl(var(--background));
+    background-image:
+      radial-gradient(58rem 38rem at 8% -10%, hsl(var(--glow-one) / 0.42), transparent 70%),
+      radial-gradient(52rem 34rem at 100% 0%, hsl(var(--glow-two) / 0.32), transparent 68%);
+    background-attachment: fixed;
   }
 
   ::selection {
-    @apply bg-brand-500/25;
+    background: hsl(var(--accent) / 0.55);
+    color: hsl(var(--foreground));
   }
 
   h1, h2, h3, h4, h5 {
-    @apply font-display tracking-tight;
+    @apply font-display tracking-[-0.035em];
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   /* Custom scrollbar */
@@ -112,10 +138,14 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    @apply bg-border rounded-full;
+    @apply rounded-full;
+    background: hsl(var(--border));
+    border: 3px solid transparent;
+    background-clip: padding-box;
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/40;
+    background: hsl(var(--muted-foreground) / 0.45);
+    background-clip: padding-box;
   }
 }
 
@@ -128,17 +158,28 @@
     @apply bg-clip-text text-transparent bg-brand-gradient;
   }
 
+  .text-gradient-sand {
+    @apply bg-clip-text text-transparent bg-sand-gradient;
+  }
+
   .surface {
     @apply rounded-2xl border border-border bg-card shadow-card;
   }
 
   .surface-glass {
-    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl;
+    background: hsl(var(--glass-bg) / 0.78);
+    border: 1px solid hsl(var(--glass-border) / 0.8);
+    @apply rounded-2xl backdrop-blur-xl shadow-card;
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1
-           text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground;
+    @apply inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1
+           text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground shadow-soft;
+  }
+
+  .eyebrow::before {
+    content: "";
+    @apply h-1.5 w-1.5 rounded-full bg-primary;
   }
 
   .focus-ring {
@@ -147,8 +188,17 @@
 
   /* Faint dotted / grid backdrop for hero sections */
   .bg-dotted {
-    background-image: radial-gradient(rgba(124, 58, 237, 0.14) 1px, transparent 1px);
+    background-image: radial-gradient(hsl(var(--dot) / 0.18) 1px, transparent 1px);
     background-size: 22px 22px;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-border;
+  }
+
+  .card-lift {
+    @apply transition-[transform,box-shadow,border-color] duration-300 ease-out
+           hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-elevated;
   }
 }
 
@@ -157,6 +207,15 @@
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
   }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .animation-delay-100 { animation-delay: 100ms; }
   .animation-delay-200 { animation-delay: 200ms; }
   .animation-delay-300 { animation-delay: 300ms; }

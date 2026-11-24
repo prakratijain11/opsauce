@@ -49,7 +49,7 @@ export function SiteFooter() {
               <span key={c} className="inline-flex items-center gap-3">
                 {c}
                 {i < OPPORTUNITY_CATEGORIES.length - 1 ? (
-                  <span className="text-border">•</span>
+                  <span className="text-muted-foreground/50 dark:text-border">•</span>
                 ) : null}
               </span>
             ))}
@@ -85,7 +85,7 @@ function FooterColumn({
           <li key={l.label}>
             <Link
               href={l.href}
-              className="text-sm text-foreground/80 transition-colors hover:text-brand-600"
+              className="text-sm text-foreground/80 transition-colors hover:text-primary"
             >
               {l.label}
             </Link>

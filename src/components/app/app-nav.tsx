@@ -60,7 +60,7 @@ export function AppSidebar() {
             className={cn(
               "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
               isActive(item.href)
-                ? "bg-brand-gradient text-white shadow-glow"
+                ? "bg-primary/10 font-semibold text-primary shadow-[inset_3px_0_0_0_hsl(var(--primary))]"
                 : "text-muted-foreground hover:bg-secondary hover:text-foreground",
             )}
           >

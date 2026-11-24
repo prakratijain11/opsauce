@@ -13,7 +13,12 @@ import {
   Cpu,
   CircleCheck,
   CircleAlert,
+  Check,
+  Monitor,
+  Moon,
+  Sun,
 } from "lucide-react";
+import { useTheme } from "next-themes";
 import { LogoMark } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { SignOutButton } from "@/components/app/sign-out-button";
@@ -86,7 +91,7 @@ export function SettingsPanels({
             className={cn(
               "flex shrink-0 items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-colors",
               active === t.id
-                ? "bg-brand-gradient text-white shadow-glow"
+                ? "bg-primary/10 font-semibold text-primary shadow-[inset_3px_0_0_0_hsl(var(--primary))]"
                 : "text-muted-foreground hover:bg-secondary hover:text-foreground",
             )}
           >
@@ -108,13 +113,16 @@ export function SettingsPanels({
           />
         )}
         {active === "preferences" && (
-          <PrefPanel
-            title="Preferences"
-            description="Tune discovery to your goals."
-            kind="preferences"
-            fields={PREFERENCE_FIELDS}
-            values={preferences}
-          />
+          <div className="space-y-6">
+            <AppearancePanel />
+            <PrefPanel
+              title="Preferences"
+              description="Tune discovery to your goals."
+              kind="preferences"
+              fields={PREFERENCE_FIELDS}
+              values={preferences}
+            />
+          </div>
         )}
         {active === "about" && <AboutPanel aiStatus={aiStatus} />}
       </div>
@@ -167,6 +175,62 @@ function AccountPanel({ account }: { account: Props["account"] }) {
         <div className="[&_button]:rounded-full [&_button]:border [&_button]:border-border [&_button]:px-4 [&_button]:py-2">
           <SignOutButton variant="menuitem" />
         </div>
+      </div>
+    </Panel>
+  );
+}
+
+const THEME_OPTIONS = [
+  { id: "light", label: "Light", hint: "Warm paper, sunlit and calm", icon: Sun },
+  { id: "dark", label: "Dark", hint: "Deep teal ink, easy on the eyes", icon: Moon },
+  { id: "system", label: "System", hint: "Follow your device setting", icon: Monitor },
+] as const;
+
+function AppearancePanel() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+
+  return (
+    <Panel title="Appearance" description="A considered palette for every hour of the day.">
+      <div className="grid gap-3 sm:grid-cols-3">
+        {THEME_OPTIONS.map((option) => {
+          const Icon = option.icon;
+          const active = mounted && theme === option.id;
+          return (
+            <button
+              key={option.id}
+              type="button"
+              onClick={() => setTheme(option.id)}
+              className={cn(
+                "relative flex flex-col items-start gap-3 rounded-xl border p-4 text-left transition-all focus-ring",
+                active
+                  ? "border-primary/40 bg-primary/5 shadow-card"
+                  : "border-border bg-card hover:border-teal-300 hover:bg-secondary/60 dark:hover:border-teal-700",
+              )}
+            >
+              <span
+                className={cn(
+                  "grid h-9 w-9 place-items-center rounded-lg transition-colors",
+                  active
+                    ? "bg-brand-gradient text-white"
+                    : "bg-secondary text-muted-foreground",
+                )}
+              >
+                <Icon className="h-4 w-4" strokeWidth={1.8} />
+              </span>
+              <span>
+                <span className="block text-sm font-semibold">{option.label}</span>
+                <span className="mt-0.5 block text-xs leading-snug text-muted-foreground">
+                  {option.hint}
+                </span>
+              </span>
+              {active ? (
+                <Check className="absolute right-3 top-3 h-4 w-4 text-primary" />
+              ) : null}
+            </button>
+          );
+        })}
       </div>
     </Panel>
   );

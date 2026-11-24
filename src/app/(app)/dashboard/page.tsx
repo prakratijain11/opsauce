@@ -35,10 +35,11 @@ export default async function DashboardPage() {
     <>
       <AppTopbar title="Dashboard" user={user} unread={unread} />
       <div className="flex-1 space-y-8 px-5 py-8 sm:px-8">
-        <section className="flex flex-col gap-2">
-          <p className="text-sm text-muted-foreground">{greeting},</p>
-          <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
-            {user.name.split(" ")[0]} 👋
+        <section className="relative flex flex-col gap-2 overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-card sm:p-8">
+          <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-terracotta-400 via-sand-300 to-teal-400 opacity-80" />
+          <span className="eyebrow w-fit">{greeting}</span>
+          <h2 className="mt-1 font-display text-2xl font-bold tracking-[-0.04em] sm:text-3xl">
+            {user.name.split(" ")[0]} <span className="text-primary">👋</span>
           </h2>
           <p className="text-sm text-muted-foreground">
             {user.profile.headline}
@@ -58,6 +59,7 @@ export default async function DashboardPage() {
             }
             progress={user.profile.completeness}
             href="/profile"
+            tone="terracotta"
           />
           <StatCard
             icon={<ClipboardList className="h-4 w-4" />}
@@ -65,12 +67,14 @@ export default async function DashboardPage() {
             value={String(active.length)}
             hint="In preparation or submitted"
             href="/applications"
+            tone="teal"
           />
           <StatCard
             icon={<CalendarClock className="h-4 w-4" />}
             label="Upcoming deadlines"
             value="..."
             hint="Across all opportunities"
+            tone="sand"
           />
         </section>
 
@@ -78,8 +82,9 @@ export default async function DashboardPage() {
 
         <RecommendationsSection />
 
-        <section className="rounded-2xl border border-border bg-brand-radial p-6 sm:p-8">
-          <div className="flex flex-col items-start gap-3 text-white sm:flex-row sm:items-center sm:justify-between">
+        <section className="relative overflow-hidden rounded-2xl border border-white/10 bg-brand-radial p-6 sm:p-8">
+          <div aria-hidden className="pointer-events-none absolute inset-0 bg-dotted opacity-20" />
+          <div className="relative flex flex-col items-start gap-3 text-white sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h3 className="font-display text-lg font-semibold">Run an AI Readiness Check</h3>
               <p className="text-sm text-white/70">
@@ -96,6 +101,12 @@ export default async function DashboardPage() {
   );
 }
 
+const STAT_TONES = {
+  terracotta: "bg-terracotta-50 text-terracotta-600 dark:bg-terracotta-500/15 dark:text-terracotta-300",
+  teal: "bg-teal-50 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300",
+  sand: "bg-sand-100 text-sand-800 dark:bg-sand-300/15 dark:text-sand-200",
+};
+
 function StatCard({
   icon,
   label,
@@ -103,6 +114,7 @@ function StatCard({
   hint,
   progress,
   href,
+  tone = "terracotta",
 }: {
   icon: React.ReactNode;
   label: string;
@@ -110,11 +122,12 @@ function StatCard({
   hint: string;
   progress?: number;
   href?: string;
+  tone?: keyof typeof STAT_TONES;
 }) {
   const inner = (
-    <div className="h-full rounded-2xl border border-border bg-card p-5 shadow-card transition-colors hover:border-brand-300 dark:hover:border-brand-500/40">
+    <div className="card-lift h-full rounded-2xl border border-border bg-card p-5 shadow-card">
       <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-        <span className="grid h-7 w-7 place-items-center rounded-lg bg-accent text-accent-foreground">
+        <span className={`grid h-7 w-7 place-items-center rounded-lg ${STAT_TONES[tone]}`}>
           {icon}
         </span>
         {label}

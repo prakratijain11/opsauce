@@ -46,7 +46,7 @@ export function SplashScreen({ minDurationMs = 1900 }: { minDurationMs?: number 
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-brand-radial text-white"
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-ink-radial text-white"
         >
           <div className="pointer-events-none absolute inset-0 bg-dotted opacity-40" />
 
@@ -57,8 +57,8 @@ export function SplashScreen({ minDurationMs = 1900 }: { minDurationMs?: number 
             className="relative flex flex-col items-center gap-6"
           >
             <div className="relative">
-              <span className="absolute inset-0 -z-10 animate-pulse-ring rounded-[22px] bg-brand-400/40" />
-              <LogoMark className="h-16 w-16 drop-shadow-[0_8px_30px_rgba(139,92,246,0.55)]" />
+              <span className="absolute inset-0 -z-10 animate-pulse-ring rounded-[22px] bg-terracotta-400/40" />
+              <LogoMark className="h-16 w-16 drop-shadow-[0_10px_30px_rgba(201,75,60,0.45)]" />
             </div>
 
             <div className="flex flex-col items-center gap-2">
